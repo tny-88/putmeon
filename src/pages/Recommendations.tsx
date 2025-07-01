@@ -77,20 +77,10 @@ function Recommendations() {
                         {recs.slice(0, visibleCount).map((rec) => (
                             <li key={rec.id} className="p-10 transition hover:shadow-md">
                                 <div>
-                                    <span className="mb-1 text-xl font-light">{rec.song_title} - </span>
+                                    <span className="mb-1 text-base font-light">{rec.song_title} - </span>
                                     <span className="mb-1 text-sm font-bold">{rec.artist}</span>
                                 </div>
                                 <div className="text-sm text-gray-500 mb-2">From: {rec.name}</div>
-                                {rec.link && (
-                                    <a
-                                        href={rec.link}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="inline-block text-sm text-black underline mb-2"
-                                    >
-                                        Listen
-                                    </a>
-                                )}
                                 <div className="text-sm flex items-center gap-2 mt-1">
                                     {editingId === rec.id ? (
                                         <>
@@ -137,6 +127,17 @@ function Recommendations() {
                                         </>
                                     )}
                                 </div>
+                                {rec.link && (
+                                    <a
+                                        href={rec.link}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="inline-block text-sm text-black underline mb-2"
+                                    >
+                                        Listen
+                                    </a>
+                                )}
+
                             </li>
                         ))}
                     </ul>
