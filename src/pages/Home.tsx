@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import Header from "../components/Header";
 import FeaturedSong from "../components/FeaturedSong";
-import RecommendButton from "../components/RecommendButton";
 import EditCuratedModal from "../components/EditCuratedModal";
 import CheckPasswordModal from "../components/CheckPasswordModal"; // ✅ new
 import { supabase } from "../supabaseClient";
@@ -61,7 +60,7 @@ function Home() {
                 )}
             </main>
 
-            <RecommendButton />
+
 
             {/* Admin button */}
             <button
