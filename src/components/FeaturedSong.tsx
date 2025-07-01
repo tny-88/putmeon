@@ -19,15 +19,15 @@ function FeaturedSong({ title, artist, artworkUrl, embedUrl }: Props) {
                 <p className="text-gray-500 text-sm sm:text-base">{artist}</p>
             </div>
 
-            <div className="aspect-video mt-4">
+            <div className="w-full max-w-[660px] mx-auto overflow-hidden rounded-md shadow-sm">
                 <iframe
+                    className="w-full h-[150px] bg-transparent"
                     src={embedUrl}
-                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-                    allowFullScreen
-                    loading="lazy"
-                    className="w-full h-full"
+                    allow="autoplay *; encrypted-media *;"
+                    sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-storage-access-by-user-activation allow-top-navigation-by-user-activation"
                 />
             </div>
+
         </div>
     );
 }
