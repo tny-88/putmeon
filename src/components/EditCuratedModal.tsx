@@ -51,7 +51,7 @@ function EditCuratedModal({ existingSong, onClose, onUpdate }: Props) {
 
     return (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-            <div className="bg-white rounded-lg p-6 w-full max-w-md shadow-xl max-h-[90vh] overflow-y-auto sm:p-8">
+            <div className="bg-white rounded-lg p-6 w-4/5 max-w-md shadow-xl max-h-[90vh] overflow-y-auto sm:p-8">
             <h2 className="text-xl font-semibold mb-4">Edit Featured Song</h2>
 
                 <form onSubmit={handleSave} className="flex flex-col gap-3">
