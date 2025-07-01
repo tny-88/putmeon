@@ -7,7 +7,9 @@ type CuratedSong = {
     artist: string;
     link: string | null;
     artwork_url: string | null;
+    apple_music_url?: string | null;
 };
+
 
 type Props = {
     existingSong: CuratedSong;
@@ -21,6 +23,8 @@ function EditCuratedModal({ existingSong, onClose, onUpdate }: Props) {
     const [link, setLink] = useState(existingSong.link || "");
     const [artwork, setArtwork] = useState(existingSong.artwork_url || "");
     const [loading, setLoading] = useState(false);
+    const [appleMusicUrl, setAppleMusicUrl] = useState(existingSong.apple_music_url || "");
+
 
     const handleSave = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -33,6 +37,7 @@ function EditCuratedModal({ existingSong, onClose, onUpdate }: Props) {
                 artist,
                 link,
                 artwork_url: artwork,
+                apple_music_url: appleMusicUrl
             })
             .eq("id", 1)
             .select()
@@ -73,11 +78,18 @@ function EditCuratedModal({ existingSong, onClose, onUpdate }: Props) {
                     />
                     <input
                         type="url"
-                        placeholder="Embed link (Spotify, YouTube, etc)"
+                        placeholder="Embed link for Spotify"
                         className="px-3 py-2 border rounded"
                         value={link}
                         onChange={(e) => setLink(e.target.value)}
                         required
+                    />
+                    <input
+                        type="url"
+                        placeholder="Apple Music link"
+                        className="px-3 py-2 border rounded"
+                        value={appleMusicUrl}
+                        onChange={(e) => setAppleMusicUrl(e.target.value)}
                     />
                     <input
                         type="url"

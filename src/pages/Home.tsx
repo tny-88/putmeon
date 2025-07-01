@@ -12,8 +12,10 @@ type CuratedSong = {
     artist: string;
     link: string | null;
     artwork_url: string | null;
+    apple_music_url: string | null; // ✅ Add this
     admin_pass?: string;
 };
+
 
 function Home() {
     const [song, setSong] = useState<CuratedSong | null>(null);
@@ -47,7 +49,7 @@ function Home() {
     };
 
     return (
-        <div className="min-h-screen bg-white flex flex-col relative">
+        <div className="min-h-screen bg-white flex flex-col relative pb-24">
             <Header />
             <main className="flex-1 flex items-center justify-center px-4">
                 {song ? (
@@ -56,6 +58,7 @@ function Home() {
                         artist={song.artist}
                         artworkUrl={song.artwork_url || ""}
                         embedUrl={song.link || ""}
+                        appleMusicUrl={song.apple_music_url || null}
                     />
                 ) : (
                     <p className="text-gray-400">No featured song yet.</p>
