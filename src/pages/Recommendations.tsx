@@ -61,7 +61,7 @@ function Recommendations() {
     };
 
     return (
-        <div className="min-h-screen bg-white flex flex-col relative">
+        <div className="min-h-screen bg-white flex flex-col relative pb-24">
             <header className="sticky top-0 z-50 bg-white flex justify-between items-center p-10 pb-5">
                 <h1 className="text-5xl font-semibold text-black">RE <br /> CS</h1>
                 <a href="/" className="text-black font-bold hover:underline text-2xl">Home</a>
