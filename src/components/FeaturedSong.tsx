@@ -25,7 +25,7 @@ function FeaturedSong({ title, artist, artworkUrl, embedUrl }: Props) {
                     allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
                     allowFullScreen
                     loading="lazy"
-                    className="w-full h-full rounded-md border-0"
+                    className="w-full h-full"
                 />
             </div>
         </div>
