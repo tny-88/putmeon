@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import { supabase } from '../supabaseClient';
 import RecommendButton from "../components/RecommendButton";
 import CheckPasswordModal from "../components/CheckPasswordModal";
+import {IconMoodWink} from "@tabler/icons-react";
+
 
 type Recommendation = {
     id: string;
@@ -159,9 +161,9 @@ function Recommendations() {
             {!isAdmin && (
                 <button
                     onClick={handleRequestAdmin}
-                    className="fixed bottom-4 left-4 bg-black text-white px-4 py-2 text-sm rounded-full shadow hover:bg-gray-800 transition"
+                    className="fixed bottom-6 left-6 w-14 h-14 rounded-full bg-black text-white flex items-center justify-center shadow-lg hover:bg-gray-800 transition-all"
                 >
-                    Secret :)
+                    <IconMoodWink size={24} stroke={2} />
                 </button>
             )}
 
