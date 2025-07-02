@@ -1,5 +1,6 @@
 import { useEffect, useState, useCallback } from 'react';
 import Header from "../components/Header";
+import Footer from "../components/Footer";
 import FeaturedSong from "../components/FeaturedSong";
 import EditCuratedModal from "../components/EditCuratedModal";
 import SecretButton from "../components/SecretButton";
@@ -160,7 +161,7 @@ function Home() {
     }
 
     return (
-        <div className="min-h-screen bg-white flex flex-col relative pb-20 sm:pb-24 animate-fadeIn">
+        <div className="min-h-screen bg-white flex flex-col relative pb-7 sm:pb-10 animate-fadeIn">
             <Header />
             <main className="flex-1 flex items-center justify-center px-4 sm:px-6 lg:px-8">
                 {song ? (
@@ -194,7 +195,10 @@ function Home() {
                 onUnlock={handleAdminUnlock}
                 onEdit={handleEditOpen}
             />
+            <Footer />
         </div>
+
+
     );
 }
 
