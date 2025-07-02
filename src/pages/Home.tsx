@@ -2,33 +2,24 @@ import { useEffect, useState } from 'react';
 import Header from "../components/Header";
 import FeaturedSong from "../components/FeaturedSong";
 import EditCuratedModal from "../components/EditCuratedModal";
-import CheckPasswordModal from "../components/CheckPasswordModal"; // ✅ new
+import SecretButton from "../components/SecretButton";
 import { supabase } from "../supabaseClient";
-import {IconMoodWink} from "@tabler/icons-react";
-
 
 type CuratedSong = {
     title: string;
     artist: string;
     link: string | null;
     artwork_url: string | null;
-    apple_music_url: string | null; // ✅ Add this
-    admin_pass?: string;
+    apple_music_url: string | null;
 };
-
 
 function Home() {
     const [song, setSong] = useState<CuratedSong | null>(null);
     const [isEditOpen, setIsEditOpen] = useState(false);
     const [isAdmin, setIsAdmin] = useState(false);
-    const [showPasswordModal, setShowPasswordModal] = useState(false);
 
     const fetchSong = async () => {
-        const { data, error } = await supabase
-            .from("curated_song")
-            .select("*")
-            .single();
-
+        const { data, error } = await supabase.from("curated_song").select("*").single();
         if (error) {
             console.error("Error fetching song:", error.message);
         } else {
@@ -38,15 +29,30 @@ function Home() {
 
     useEffect(() => {
         fetchSong();
+
+    }, []);
+    
+    useEffect(() => {
+        const channel = supabase
+            .channel("curated-song-updates")
+            .on(
+                "postgres_changes",
+                {
+                    event: "*", // You can also use 'UPDATE' only
+                    schema: "public",
+                    table: "curated_song",
+                },
+                () => {
+                    fetchSong();
+                }
+            )
+            .subscribe();
+
+        return () => {
+            supabase.removeChannel(channel);
+        };
     }, []);
 
-    const handleRequestEdit = () => {
-        if (isAdmin) {
-            setIsEditOpen(true);
-        } else {
-            setShowPasswordModal(true);
-        }
-    };
 
     return (
         <div className="min-h-screen bg-white flex flex-col relative pb-24">
@@ -58,44 +64,27 @@ function Home() {
                         artist={song.artist}
                         artworkUrl={song.artwork_url || ""}
                         embedUrl={song.link || ""}
-                        appleMusicUrl={song.apple_music_url || null}
+                        appleMusicUrl={song.apple_music_url}
                     />
                 ) : (
                     <p className="text-gray-400">No featured song yet.</p>
                 )}
             </main>
 
-
-
-            {/* Admin button */}
-            <button
-                onClick={handleRequestEdit}
-                className="fixed bottom-6 left-6 w-14 h-14 rounded-full bg-black text-white flex items-center justify-center shadow-lg hover:bg-gray-800 transition-all"
-            >
-                <IconMoodWink size={24} stroke={2} />
-            </button>
-
-            {/* Password check modal */}
-            {showPasswordModal && (
-                <CheckPasswordModal
-                    onSuccess={() => {
-                        setIsAdmin(true);
-                        setIsEditOpen(true);
-                    }}
-                    onClose={() => setShowPasswordModal(false)}
-                />
-            )}
-
-            {/* Edit modal */}
-            {isEditOpen && song && (
+            {/* Edit modal only shown if admin is true */}
+            {isAdmin && isEditOpen && song && (
                 <EditCuratedModal
                     existingSong={song}
                     onClose={() => setIsEditOpen(false)}
-                    onUpdate={() => {
-                        fetchSong(); // Refresh after update
-                    }}
+                    onUpdate={fetchSong}
                 />
             )}
+
+            {/* ✅ Use SecretButton to trigger admin mode */}
+            <SecretButton
+                onUnlock={() => setIsAdmin(true)}
+                onEdit={() => setIsEditOpen(true)}
+            />
         </div>
     );
 }

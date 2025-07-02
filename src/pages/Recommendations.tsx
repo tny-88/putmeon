@@ -1,9 +1,7 @@
 import { useEffect, useState } from 'react';
 import { supabase } from '../supabaseClient';
 import RecommendButton from "../components/RecommendButton";
-import CheckPasswordModal from "../components/CheckPasswordModal";
-import {IconMoodWink} from "@tabler/icons-react";
-
+import SecretButton from "../components/SecretButton";
 
 type Recommendation = {
     id: string;
@@ -19,8 +17,7 @@ function Recommendations() {
     const [loading, setLoading] = useState(true);
     const [isAdmin, setIsAdmin] = useState(false);
     const [editingId, setEditingId] = useState<string | null>(null);
-    const [showPasswordModal, setShowPasswordModal] = useState(false);
-    const [visibleCount, setVisibleCount] = useState(3); // Load 5 at a time
+    const [visibleCount, setVisibleCount] = useState(3);
 
     const fetchRecs = async () => {
         const { data, error } = await supabase
@@ -35,12 +32,10 @@ function Recommendations() {
         setLoading(false);
     };
 
-    // Initial fetch
     useEffect(() => {
         fetchRecs();
     }, []);
 
-    // Real-time updates
     useEffect(() => {
         const channel = supabase
             .channel('recommendations-updates')
@@ -50,15 +45,10 @@ function Recommendations() {
                 () => fetchRecs()
             )
             .subscribe();
-
         return () => {
             supabase.removeChannel(channel);
         };
     }, []);
-
-    const handleRequestAdmin = () => {
-        setShowPasswordModal(true);
-    };
 
     return (
         <div className="min-h-screen bg-white flex flex-col relative pb-24">
@@ -93,7 +83,7 @@ function Recommendations() {
                                                         .update({ rating: newRating })
                                                         .eq('id', rec.id);
                                                     if (!error) {
-                                                        setEditingId(null); // List auto-refreshes
+                                                        setEditingId(null);
                                                     } else {
                                                         alert('Failed to update rating: ' + error.message);
                                                     }
@@ -137,12 +127,9 @@ function Recommendations() {
                                         Listen
                                     </a>
                                 )}
-
                             </li>
                         ))}
                     </ul>
-
-                    {/* Load More Button */}
                     {visibleCount < recs.length && (
                         <div className="text-center mt-4 pb-10">
                             <button
@@ -158,21 +145,9 @@ function Recommendations() {
 
             <RecommendButton />
 
-            {/* Admin unlock */}
+            {/* Admin access button */}
             {!isAdmin && (
-                <button
-                    onClick={handleRequestAdmin}
-                    className="fixed bottom-6 left-6 w-14 h-14 rounded-full bg-black text-white flex items-center justify-center shadow-lg hover:bg-gray-800 transition-all"
-                >
-                    <IconMoodWink size={24} stroke={2} />
-                </button>
-            )}
-
-            {showPasswordModal && (
-                <CheckPasswordModal
-                    onSuccess={() => setIsAdmin(true)}
-                    onClose={() => setShowPasswordModal(false)}
-                />
+                <SecretButton onUnlock={() => setIsAdmin(true)} />
             )}
         </div>
     );
