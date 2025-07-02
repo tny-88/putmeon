@@ -31,7 +31,7 @@ function Home() {
         fetchSong();
 
     }, []);
-    
+
     useEffect(() => {
         const channel = supabase
             .channel("curated-song-updates")
@@ -80,7 +80,7 @@ function Home() {
                 />
             )}
 
-            {/* ✅ Use SecretButton to trigger admin mode */}
+            {/* Use SecretButton to trigger admin mode */}
             <SecretButton
                 onUnlock={() => setIsAdmin(true)}
                 onEdit={() => setIsEditOpen(true)}

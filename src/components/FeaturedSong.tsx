@@ -21,15 +21,17 @@ function FeaturedSong({ title, artist, artworkUrl, embedUrl, appleMusicUrl }: Pr
                 <p className="text-gray-500 text-sm sm:text-base">{artist}</p>
             </div>
 
-            <div className="aspect-video mt-4">
+            <div className="w-full mt-4">
                 <iframe
                     src={embedUrl}
+                    width="100%"
+                    height="80"
                     allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-                    allowFullScreen
                     loading="lazy"
-                    className="w-full h-full"
+                    className="rounded-md border-none"
                 />
             </div>
+
 
             {/* Apple Music Button */}
             <a
