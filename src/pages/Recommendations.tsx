@@ -30,7 +30,6 @@ function Recommendations() {
                 .order('created_at', { ascending: false });
 
             if (error) throw error;
-
             setRecs(data || []);
         } catch (err) {
             const errorMessage = err instanceof Error ? err.message : 'Failed to fetch recommendations';
@@ -50,8 +49,8 @@ function Recommendations() {
                 .eq('id', recId);
 
             if (error) throw error;
-
             setEditingId(null);
+
             // Optimistically update local state
             setRecs(prev => prev.map(rec =>
                 rec.id === recId ? { ...rec, rating: newRating } : rec
@@ -90,28 +89,46 @@ function Recommendations() {
 
     if (loading) {
         return (
-            <div className="min-h-screen bg-white flex flex-col relative pb-24">
-                <header className="sticky top-0 z-50 bg-white flex justify-between items-center p-10 pb-5">
-                    <h1 className="text-5xl font-semibold text-black">RE <br /> CS</h1>
-                    <a href="/" className="text-black font-bold hover:underline text-2xl">Home</a>
+            <div className="min-h-screen bg-white flex flex-col relative pb-16 sm:pb-20 md:pb-24">
+                <header className="sticky top-0 z-50 bg-white flex justify-between items-center p-4 sm:p-6 md:p-8 lg:p-10 pb-3 sm:pb-4 md:pb-5 border-b border-gray-100">
+                    <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold text-black leading-tight">
+                        RE <br /> CS
+                    </h1>
+                    <a
+                        href="/"
+                        className="text-black font-bold hover:underline text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl transition-all duration-200 hover:text-gray-700"
+                    >
+                        Home
+                    </a>
                 </header>
-                <p className="flex items-center justify-center">Loading...</p>
+                <div className="flex-1 flex items-center justify-center p-4">
+                    <p className="text-base sm:text-lg text-gray-600">Loading...</p>
+                </div>
             </div>
         );
     }
 
     if (error) {
         return (
-            <div className="min-h-screen bg-white flex flex-col relative pb-24">
-                <header className="sticky top-0 z-50 bg-white flex justify-between items-center p-10 pb-5">
-                    <h1 className="text-5xl font-semibold text-black">RE <br /> CS</h1>
-                    <a href="/" className="text-black font-bold hover:underline text-2xl">Home</a>
+            <div className="min-h-screen bg-white flex flex-col relative pb-16 sm:pb-20 md:pb-24">
+                <header className="sticky top-0 z-50 bg-white flex justify-between items-center p-4 sm:p-6 md:p-8 lg:p-10 pb-3 sm:pb-4 md:pb-5 border-b border-gray-100">
+                    <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold text-black leading-tight">
+                        RE <br /> CS
+                    </h1>
+                    <a
+                        href="/"
+                        className="text-black font-bold hover:underline text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl transition-all duration-200 hover:text-gray-700"
+                    >
+                        Home
+                    </a>
                 </header>
-                <div className="flex flex-col items-center justify-center p-4">
-                    <p className="text-red-600 mb-4">Error: {error}</p>
+                <div className="flex-1 flex flex-col items-center justify-center p-4 sm:p-6">
+                    <p className="text-red-600 mb-4 text-sm sm:text-base text-center px-2">
+                        Error: {error}
+                    </p>
                     <button
                         onClick={fetchRecs}
-                        className="bg-black text-white px-4 py-2 rounded hover:bg-gray-800 transition"
+                        className="bg-black text-white px-4 py-2 rounded hover:bg-gray-800 transition text-sm sm:text-base"
                     >
                         Try Again
                     </button>
@@ -121,93 +138,136 @@ function Recommendations() {
     }
 
     return (
-        <div className="min-h-screen bg-white flex flex-col relative pb-24">
-            <header className="sticky top-0 z-50 bg-white flex justify-between items-center p-10 pb-5">
-                <h1 className="text-5xl font-semibold text-black">RE <br /> CS</h1>
-                <a href="/" className="text-black font-bold hover:underline text-2xl">Home</a>
+        <div className="min-h-screen bg-white flex flex-col relative pb-16 sm:pb-20 md:pb-24">
+            {/* Mobile-optimized header */}
+            <header className="sticky top-0 z-50 bg-white flex justify-between items-center p-4 sm:p-6 md:p-8 lg:p-10 pb-3 sm:pb-4 md:pb-5 border-b border-gray-100">
+                <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold text-black leading-tight">
+                    RE <br /> CS
+                </h1>
+                <a
+                    href="/"
+                    className="text-black font-bold hover:underline text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl transition-all duration-200 hover:text-gray-700"
+                >
+                    Home
+                </a>
             </header>
 
             {recs.length === 0 ? (
-                <p className="flex items-center justify-center text-lg font-bold">No recs yet.</p>
+                <div className="flex-1 flex items-center justify-center p-4">
+                    <p className="text-base sm:text-lg font-bold text-gray-600">No recs yet.</p>
+                </div>
             ) : (
                 <>
-                    <ul className="space-y-3 px-4 sm:px-6 lg:px-8 pb-6 sm:pb-8 lg:pb-12">
-                        {recs.slice(0, visibleCount).map((rec) => (
-                            <li key={rec.id} className="p-10 transition hover:shadow-md">
-                                <div>
-                                    <span className="mb-1 text-base font-light">{rec.song_title} - </span>
-                                    <span className="mb-1 text-sm font-bold">{rec.artist}</span>
-                                </div>
-                                <div className="text-sm text-gray-500 mb-2">From: {rec.name}</div>
-                                <div className="text-sm flex items-center gap-2 mt-1">
-                                    {editingId === rec.id ? (
-                                        <>
-                                            <select
-                                                value={rec.rating ?? ''}
-                                                onChange={(e) => {
-                                                    const newRating = parseInt(e.target.value);
-                                                    if (!isNaN(newRating)) {
-                                                        updateRating(rec.id, newRating);
-                                                    }
-                                                }}
-                                                disabled={updatingRating}
-                                                className="border border-gray-300 rounded px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-black disabled:opacity-50"
-                                            >
-                                                <option value="">—</option>
-                                                {Array.from({ length: 10 }, (_, i) => i + 1).map((n) => (
-                                                    <option key={n} value={n}>{n}</option>
-                                                ))}
-                                            </select>
-                                            <button
-                                                onClick={() => setEditingId(null)}
-                                                disabled={updatingRating}
-                                                className="text-xs text-gray-500 hover:underline disabled:opacity-50"
-                                            >
-                                                Cancel
-                                            </button>
-                                            {updatingRating && <span className="text-xs text-gray-500">Saving...</span>}
-                                        </>
-                                    ) : (
-                                        <>
-                                            <span>{rec.rating !== null ? `${rec.rating}/10` : 'No rating yet'}</span>
-                                            {isAdmin && (
-                                                <button
-                                                    onClick={() => setEditingId(rec.id)}
-                                                    className="text-gray-400 hover:text-black transition"
-                                                    title="Edit rating"
+                    {/* Mobile-optimized recommendations list */}
+                    <div className="flex-1 px-3 sm:px-4 md:px-6 lg:px-8 py-4 sm:py-6">
+                        <ul className="space-y-3 sm:space-y-4 md:space-y-6">
+                            {recs.slice(0, visibleCount).map((rec) => (
+                                <li
+                                    key={rec.id}
+                                    className="bg-white border border-gray-100 rounded-lg p-4 sm:p-5 md:p-6 lg:p-8 transition-all duration-200 hover:shadow-md hover:border-gray-200"
+                                >
+                                    {/* Song title and artist */}
+                                    <div className="mb-2 sm:mb-3">
+                                        <div className="flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-2">
+                                            <span className="text-sm sm:text-base md:text-lg font-medium text-black leading-tight">
+                                                {rec.song_title}
+                                            </span>
+                                            <span className="text-xs sm:text-sm md:text-base text-gray-600">
+                                                by {rec.artist}
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    {/* Recommender name */}
+                                    <div className="text-xs sm:text-sm text-gray-500 mb-2 sm:mb-3">
+                                        From: {rec.name}
+                                    </div>
+
+                                    {/* Rating section */}
+                                    <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3 mb-2 sm:mb-3">
+                                        {editingId === rec.id ? (
+                                            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2">
+                                                <select
+                                                    value={rec.rating ?? ''}
+                                                    onChange={(e) => {
+                                                        const newRating = parseInt(e.target.value);
+                                                        if (!isNaN(newRating)) {
+                                                            updateRating(rec.id, newRating);
+                                                        }
+                                                    }}
+                                                    disabled={updatingRating}
+                                                    className="border border-gray-300 rounded px-2 py-1 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-black disabled:opacity-50 w-16"
                                                 >
-                                                    ✏️
-                                                </button>
-                                            )}
-                                        </>
+                                                    <option value="">—</option>
+                                                    {Array.from({ length: 10 }, (_, i) => i + 1).map((n) => (
+                                                        <option key={n} value={n}>{n}</option>
+                                                    ))}
+                                                </select>
+                                                <div className="flex items-center gap-2">
+                                                    <button
+                                                        onClick={() => setEditingId(null)}
+                                                        disabled={updatingRating}
+                                                        className="text-xs text-gray-500 hover:underline disabled:opacity-50"
+                                                    >
+                                                        Cancel
+                                                    </button>
+                                                    {updatingRating && (
+                                                        <span className="text-xs text-gray-500">Saving...</span>
+                                                    )}
+                                                </div>
+                                            </div>
+                                        ) : (
+                                            <div className="flex items-center gap-2">
+                                                <span className="text-xs sm:text-sm text-gray-700 font-medium">
+                                                    {rec.rating !== null ? `${rec.rating}/10` : 'No rating yet'}
+                                                </span>
+                                                {isAdmin && (
+                                                    <button
+                                                        onClick={() => setEditingId(rec.id)}
+                                                        className="text-gray-400 hover:text-black transition-colors duration-200 p-1"
+                                                        title="Edit rating"
+                                                    >
+                                                        <span className="text-xs">✏️</span>
+                                                    </button>
+                                                )}
+                                            </div>
+                                        )}
+                                    </div>
+
+                                    {/* Listen link */}
+                                    {rec.link && (
+                                        <div>
+                                            <a
+                                                href={rec.link}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="inline-flex items-center gap-1 text-xs sm:text-sm text-black underline hover:text-gray-700 transition-colors duration-200"
+                                            >
+                                                Listen
+                                                <span className="text-xs">→</span>
+                                            </a>
+                                        </div>
                                     )}
-                                </div>
-                                {rec.link && (
-                                    <a
-                                        href={rec.link}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="inline-block text-sm text-black underline mb-2"
-                                    >
-                                        Listen
-                                    </a>
-                                )}
-                            </li>
-                        ))}
-                    </ul>
-                    {visibleCount < recs.length && (
-                        <div className="text-center mt-4 pb-10">
-                            <button
-                                onClick={loadMore}
-                                className="bg-black text-white px-4 py-2 rounded-full hover:bg-gray-800 transition"
-                            >
-                                Load More
-                            </button>
-                        </div>
-                    )}
+                                </li>
+                            ))}
+                        </ul>
+
+                        {/* Load more button */}
+                        {visibleCount < recs.length && (
+                            <div className="text-center mt-6 sm:mt-8 md:mt-10">
+                                <button
+                                    onClick={loadMore}
+                                    className="bg-black text-white px-4 sm:px-6 py-2 sm:py-3 rounded-full hover:bg-gray-800 transition-colors duration-200 text-sm sm:text-base font-medium"
+                                >
+                                    Load More ({recs.length - visibleCount} remaining)
+                                </button>
+                            </div>
+                        )}
+                    </div>
                 </>
             )}
 
+            {/* Fixed action buttons */}
             <RecommendButton />
             {!isAdmin && (
                 <SecretButton onUnlock={() => setIsAdmin(true)} />
