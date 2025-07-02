@@ -15,24 +15,24 @@ type CuratedSong = {
 
 // Loading skeleton component
 const LoadingSkeleton = () => (
-    <div className="min-h-screen bg-white flex flex-col relative pb-20 sm:pb-24">
+    <div className="h-screen bg-white flex flex-col relative overflow-hidden">
         <Header />
-        <main className="flex-1 flex items-center justify-center px-4 sm:px-6 lg:px-8">
-            <div className="w-full max-w-sm sm:max-w-md">
+        <main className="flex-1 flex items-center justify-center px-4 sm:px-6 lg:px-8 min-h-0">
+            <div className="w-full max-w-sm sm:max-w-md flex flex-col items-center">
                 {/* Skeleton for artwork */}
-                <div className="w-48 h-48 sm:w-56 sm:h-56 md:w-64 md:h-64 bg-gray-200 rounded-lg mx-auto mb-4 sm:mb-6 animate-pulse"></div>
+                <div className="w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48 bg-gray-200 rounded-lg mb-3 sm:mb-4 animate-pulse flex-shrink-0"></div>
 
                 {/* Skeleton for song title */}
-                <div className="h-6 sm:h-7 md:h-8 bg-gray-200 rounded mb-2 sm:mb-3 animate-pulse"></div>
+                <div className="h-5 sm:h-6 md:h-7 bg-gray-200 rounded mb-2 w-3/4 animate-pulse"></div>
 
                 {/* Skeleton for artist */}
-                <div className="h-4 sm:h-5 md:h-6 bg-gray-200 rounded w-3/4 mx-auto mb-3 sm:mb-4 animate-pulse"></div>
+                <div className="h-4 sm:h-5 bg-gray-200 rounded w-1/2 mb-3 sm:mb-4 animate-pulse"></div>
 
                 {/* Skeleton for embed player */}
-                <div className="h-32 sm:h-36 md:h-40 bg-gray-200 rounded mb-3 sm:mb-4 animate-pulse"></div>
+                <div className="h-20 sm:h-24 md:h-28 bg-gray-200 rounded mb-2 sm:mb-3 w-full animate-pulse flex-shrink-0"></div>
 
                 {/* Skeleton for Apple Music button */}
-                <div className="h-6 w-32 bg-gray-200 rounded mx-auto animate-pulse"></div>
+                <div className="h-4 w-28 bg-gray-200 rounded animate-pulse"></div>
             </div>
         </main>
         <SecretButton
@@ -136,9 +136,9 @@ function Home() {
 
     if (error) {
         return (
-            <div className="min-h-screen bg-white flex flex-col relative pb-20 sm:pb-24 animate-fadeIn">
+            <div className="h-screen bg-white flex flex-col relative overflow-hidden animate-fadeIn">
                 <Header />
-                <main className="flex-1 flex items-center justify-center px-4 sm:px-6">
+                <main className="flex-1 flex items-center justify-center px-4 sm:px-6 min-h-0">
                     <div className="text-center max-w-sm sm:max-w-md">
                         <p className="text-red-600 mb-4 text-sm sm:text-base px-2">
                             Error loading featured song: {error}
@@ -160,11 +160,11 @@ function Home() {
     }
 
     return (
-        <div className="min-h-screen bg-white flex flex-col relative pb-20 sm:pb-24 animate-fadeIn">
+        <div className="h-screen bg-white flex flex-col relative overflow-hidden animate-fadeIn">
             <Header />
-            <main className="flex-1 flex items-center justify-center px-4 sm:px-6 lg:px-8">
+            <main className="flex-1 flex items-center justify-center px-4 sm:px-6 lg:px-8 min-h-0">
                 {song ? (
-                    <div className="animate-slideIn w-full">
+                    <div className="animate-slideIn w-full flex justify-center">
                         <FeaturedSong
                             title={song.title}
                             artist={song.artist}
