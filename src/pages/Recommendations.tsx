@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { supabase } from '../supabaseClient';
 import RecommendButton from "../components/RecommendButton";
 import SecretButton from "../components/SecretButton";
@@ -15,26 +15,59 @@ type Recommendation = {
 function Recommendations() {
     const [recs, setRecs] = useState<Recommendation[]>([]);
     const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
     const [isAdmin, setIsAdmin] = useState(false);
     const [editingId, setEditingId] = useState<string | null>(null);
     const [visibleCount, setVisibleCount] = useState(3);
+    const [updatingRating, setUpdatingRating] = useState(false);
 
-    const fetchRecs = async () => {
-        const { data, error } = await supabase
-            .from('recommendations')
-            .select('*')
-            .order('created_at', { ascending: false });
-        if (error) {
-            console.error('Error fetching recommendations:', error.message);
-        } else {
-            setRecs(data);
+    const fetchRecs = useCallback(async () => {
+        try {
+            setError(null);
+            const { data, error } = await supabase
+                .from('recommendations')
+                .select('*')
+                .order('created_at', { ascending: false });
+
+            if (error) throw error;
+
+            setRecs(data || []);
+        } catch (err) {
+            const errorMessage = err instanceof Error ? err.message : 'Failed to fetch recommendations';
+            console.error('Error fetching recommendations:', errorMessage);
+            setError(errorMessage);
+        } finally {
+            setLoading(false);
         }
-        setLoading(false);
-    };
+    }, []);
+
+    const updateRating = useCallback(async (recId: string, newRating: number) => {
+        setUpdatingRating(true);
+        try {
+            const { error } = await supabase
+                .from('recommendations')
+                .update({ rating: newRating })
+                .eq('id', recId);
+
+            if (error) throw error;
+
+            setEditingId(null);
+            // Optimistically update local state
+            setRecs(prev => prev.map(rec =>
+                rec.id === recId ? { ...rec, rating: newRating } : rec
+            ));
+        } catch (err) {
+            const errorMessage = err instanceof Error ? err.message : 'Failed to update rating';
+            console.error('Error updating rating:', errorMessage);
+            alert('Failed to update rating: ' + errorMessage);
+        } finally {
+            setUpdatingRating(false);
+        }
+    }, []);
 
     useEffect(() => {
         fetchRecs();
-    }, []);
+    }, [fetchRecs]);
 
     useEffect(() => {
         const channel = supabase
@@ -45,10 +78,47 @@ function Recommendations() {
                 () => fetchRecs()
             )
             .subscribe();
+
         return () => {
             supabase.removeChannel(channel);
         };
+    }, [fetchRecs]);
+
+    const loadMore = useCallback(() => {
+        setVisibleCount(prev => prev + 3);
     }, []);
+
+    if (loading) {
+        return (
+            <div className="min-h-screen bg-white flex flex-col relative pb-24">
+                <header className="sticky top-0 z-50 bg-white flex justify-between items-center p-10 pb-5">
+                    <h1 className="text-5xl font-semibold text-black">RE <br /> CS</h1>
+                    <a href="/" className="text-black font-bold hover:underline text-2xl">Home</a>
+                </header>
+                <p className="flex items-center justify-center">Loading...</p>
+            </div>
+        );
+    }
+
+    if (error) {
+        return (
+            <div className="min-h-screen bg-white flex flex-col relative pb-24">
+                <header className="sticky top-0 z-50 bg-white flex justify-between items-center p-10 pb-5">
+                    <h1 className="text-5xl font-semibold text-black">RE <br /> CS</h1>
+                    <a href="/" className="text-black font-bold hover:underline text-2xl">Home</a>
+                </header>
+                <div className="flex flex-col items-center justify-center p-4">
+                    <p className="text-red-600 mb-4">Error: {error}</p>
+                    <button
+                        onClick={fetchRecs}
+                        className="bg-black text-white px-4 py-2 rounded hover:bg-gray-800 transition"
+                    >
+                        Try Again
+                    </button>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="min-h-screen bg-white flex flex-col relative pb-24">
@@ -57,9 +127,7 @@ function Recommendations() {
                 <a href="/" className="text-black font-bold hover:underline text-2xl">Home</a>
             </header>
 
-            {loading ? (
-                <p className="flex items-center justify-center">Loading...</p>
-            ) : recs.length === 0 ? (
+            {recs.length === 0 ? (
                 <p className="flex items-center justify-center text-lg font-bold">No recs yet.</p>
             ) : (
                 <>
@@ -76,19 +144,14 @@ function Recommendations() {
                                         <>
                                             <select
                                                 value={rec.rating ?? ''}
-                                                onChange={async (e) => {
+                                                onChange={(e) => {
                                                     const newRating = parseInt(e.target.value);
-                                                    const { error } = await supabase
-                                                        .from('recommendations')
-                                                        .update({ rating: newRating })
-                                                        .eq('id', rec.id);
-                                                    if (!error) {
-                                                        setEditingId(null);
-                                                    } else {
-                                                        alert('Failed to update rating: ' + error.message);
+                                                    if (!isNaN(newRating)) {
+                                                        updateRating(rec.id, newRating);
                                                     }
                                                 }}
-                                                className="border border-gray-300 rounded px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-black"
+                                                disabled={updatingRating}
+                                                className="border border-gray-300 rounded px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-black disabled:opacity-50"
                                             >
                                                 <option value="">—</option>
                                                 {Array.from({ length: 10 }, (_, i) => i + 1).map((n) => (
@@ -97,10 +160,12 @@ function Recommendations() {
                                             </select>
                                             <button
                                                 onClick={() => setEditingId(null)}
-                                                className="text-xs text-gray-500 hover:underline"
+                                                disabled={updatingRating}
+                                                className="text-xs text-gray-500 hover:underline disabled:opacity-50"
                                             >
                                                 Cancel
                                             </button>
+                                            {updatingRating && <span className="text-xs text-gray-500">Saving...</span>}
                                         </>
                                     ) : (
                                         <>
@@ -133,7 +198,7 @@ function Recommendations() {
                     {visibleCount < recs.length && (
                         <div className="text-center mt-4 pb-10">
                             <button
-                                onClick={() => setVisibleCount((prev) => prev + 3)}
+                                onClick={loadMore}
                                 className="bg-black text-white px-4 py-2 rounded-full hover:bg-gray-800 transition"
                             >
                                 Load More
@@ -144,8 +209,6 @@ function Recommendations() {
             )}
 
             <RecommendButton />
-
-            {/* Admin access button */}
             {!isAdmin && (
                 <SecretButton onUnlock={() => setIsAdmin(true)} />
             )}
