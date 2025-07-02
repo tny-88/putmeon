@@ -42,22 +42,7 @@ const LoadingSkeleton = () => (
     </div>
 );
 
-// Alternative simple loading spinner
-const LoadingSpinner = () => (
-    <div className="min-h-screen bg-white flex flex-col relative pb-24">
-        <Header />
-        <main className="flex-1 flex items-center justify-center px-4">
-            <div className="text-center">
-                <div className="w-12 h-12 border-4 border-gray-200 border-t-black rounded-full animate-spin mx-auto mb-4"></div>
-                <p className="text-gray-400 animate-pulse">Loading featured song...</p>
-            </div>
-        </main>
-        <SecretButton
-            onUnlock={() => {}}
-            onEdit={() => {}}
-        />
-    </div>
-);
+
 
 function Home() {
     const [song, setSong] = useState<CuratedSong | null>(null);
