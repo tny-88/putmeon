@@ -36,7 +36,7 @@ function FeaturedSong({ title, artist, artworkUrl, embedUrl, appleMusicUrl }: Pr
                     src={embedUrl}
                     allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
                     loading="lazy"
-                    className="w-full h-32 sm:h-36 md:h-40 border-none rounded-lg"
+                    className="w-full h-20 sm:h-23 md:h-26 border-none rounded-lg"
                     title={`${title} by ${artist}`}
                 />
             </div>
