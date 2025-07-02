@@ -15,24 +15,24 @@ type CuratedSong = {
 
 // Loading skeleton component
 const LoadingSkeleton = () => (
-    <div className="min-h-screen bg-white flex flex-col relative pb-24">
+    <div className="min-h-screen bg-white flex flex-col relative pb-20 sm:pb-24">
         <Header />
-        <main className="flex-1 flex items-center justify-center px-4">
-            <div className="w-full max-w-md">
+        <main className="flex-1 flex items-center justify-center px-4 sm:px-6 lg:px-8">
+            <div className="w-full max-w-sm sm:max-w-md">
                 {/* Skeleton for artwork */}
-                <div className="w-64 h-64 bg-gray-200 rounded-lg mx-auto mb-6 animate-pulse"></div>
+                <div className="w-48 h-48 sm:w-56 sm:h-56 md:w-64 md:h-64 bg-gray-200 rounded-lg mx-auto mb-4 sm:mb-6 animate-pulse"></div>
 
                 {/* Skeleton for song title */}
-                <div className="h-8 bg-gray-200 rounded mb-3 animate-pulse"></div>
+                <div className="h-6 sm:h-7 md:h-8 bg-gray-200 rounded mb-2 sm:mb-3 animate-pulse"></div>
 
                 {/* Skeleton for artist */}
-                <div className="h-6 bg-gray-200 rounded w-3/4 mx-auto mb-4 animate-pulse"></div>
+                <div className="h-4 sm:h-5 md:h-6 bg-gray-200 rounded w-3/4 mx-auto mb-3 sm:mb-4 animate-pulse"></div>
 
-                {/* Skeleton for buttons */}
-                <div className="flex gap-3 justify-center">
-                    <div className="h-10 w-24 bg-gray-200 rounded animate-pulse"></div>
-                    <div className="h-10 w-32 bg-gray-200 rounded animate-pulse"></div>
-                </div>
+                {/* Skeleton for embed player */}
+                <div className="h-32 sm:h-36 md:h-40 bg-gray-200 rounded mb-3 sm:mb-4 animate-pulse"></div>
+
+                {/* Skeleton for Apple Music button */}
+                <div className="h-6 w-32 bg-gray-200 rounded mx-auto animate-pulse"></div>
             </div>
         </main>
         <SecretButton
@@ -41,8 +41,6 @@ const LoadingSkeleton = () => (
         />
     </div>
 );
-
-
 
 function Home() {
     const [song, setSong] = useState<CuratedSong | null>(null);
@@ -133,19 +131,21 @@ function Home() {
 
     // Show loading animation while fetching data or content isn't ready
     if (loading || !contentReady) {
-        return <LoadingSkeleton />; // Change to <LoadingSpinner /> if you prefer the spinner
+        return <LoadingSkeleton />;
     }
 
     if (error) {
         return (
-            <div className="min-h-screen bg-white flex flex-col relative pb-24 animate-fadeIn">
+            <div className="min-h-screen bg-white flex flex-col relative pb-20 sm:pb-24 animate-fadeIn">
                 <Header />
-                <main className="flex-1 flex items-center justify-center px-4">
-                    <div className="text-center">
-                        <p className="text-red-600 mb-4">Error loading featured song: {error}</p>
+                <main className="flex-1 flex items-center justify-center px-4 sm:px-6">
+                    <div className="text-center max-w-sm sm:max-w-md">
+                        <p className="text-red-600 mb-4 text-sm sm:text-base px-2">
+                            Error loading featured song: {error}
+                        </p>
                         <button
                             onClick={fetchSong}
-                            className="bg-black text-white px-4 py-2 rounded hover:bg-gray-800 transition"
+                            className="bg-black text-white px-4 py-2 rounded hover:bg-gray-800 transition text-sm sm:text-base"
                         >
                             Try Again
                         </button>
@@ -160,11 +160,11 @@ function Home() {
     }
 
     return (
-        <div className="min-h-screen bg-white flex flex-col relative pb-24 animate-fadeIn">
+        <div className="min-h-screen bg-white flex flex-col relative pb-20 sm:pb-24 animate-fadeIn">
             <Header />
-            <main className="flex-1 flex items-center justify-center px-4">
+            <main className="flex-1 flex items-center justify-center px-4 sm:px-6 lg:px-8">
                 {song ? (
-                    <div className="animate-slideIn">
+                    <div className="animate-slideIn w-full">
                         <FeaturedSong
                             title={song.title}
                             artist={song.artist}
@@ -174,7 +174,9 @@ function Home() {
                         />
                     </div>
                 ) : (
-                    <p className="text-gray-400 animate-fadeIn">No featured song yet.</p>
+                    <p className="text-gray-400 animate-fadeIn text-center text-sm sm:text-base">
+                        No featured song yet.
+                    </p>
                 )}
             </main>
 
