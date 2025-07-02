@@ -13,12 +13,59 @@ type CuratedSong = {
     apple_music_url: string | null;
 };
 
+// Loading skeleton component
+const LoadingSkeleton = () => (
+    <div className="min-h-screen bg-white flex flex-col relative pb-24">
+        <Header />
+        <main className="flex-1 flex items-center justify-center px-4">
+            <div className="w-full max-w-md">
+                {/* Skeleton for artwork */}
+                <div className="w-64 h-64 bg-gray-200 rounded-lg mx-auto mb-6 animate-pulse"></div>
+
+                {/* Skeleton for song title */}
+                <div className="h-8 bg-gray-200 rounded mb-3 animate-pulse"></div>
+
+                {/* Skeleton for artist */}
+                <div className="h-6 bg-gray-200 rounded w-3/4 mx-auto mb-4 animate-pulse"></div>
+
+                {/* Skeleton for buttons */}
+                <div className="flex gap-3 justify-center">
+                    <div className="h-10 w-24 bg-gray-200 rounded animate-pulse"></div>
+                    <div className="h-10 w-32 bg-gray-200 rounded animate-pulse"></div>
+                </div>
+            </div>
+        </main>
+        <SecretButton
+            onUnlock={() => {}}
+            onEdit={() => {}}
+        />
+    </div>
+);
+
+// Alternative simple loading spinner
+// const LoadingSpinner = () => (
+//     <div className="min-h-screen bg-white flex flex-col relative pb-24">
+//         <Header />
+//         <main className="flex-1 flex items-center justify-center px-4">
+//             <div className="text-center">
+//                 <div className="w-12 h-12 border-4 border-gray-200 border-t-black rounded-full animate-spin mx-auto mb-4"></div>
+//                 <p className="text-gray-400 animate-pulse">Loading featured song...</p>
+//             </div>
+//         </main>
+//         <SecretButton
+//             onUnlock={() => {}}
+//             onEdit={() => {}}
+//         />
+//     </div>
+// );
+
 function Home() {
     const [song, setSong] = useState<CuratedSong | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [isEditOpen, setIsEditOpen] = useState(false);
     const [isAdmin, setIsAdmin] = useState(false);
+    const [contentReady, setContentReady] = useState(false);
 
     const fetchSong = useCallback(async () => {
         try {
@@ -88,24 +135,25 @@ function Home() {
         };
     }, [fetchSong]);
 
-    if (loading) {
-        return (
-            <div className="min-h-screen bg-white flex flex-col relative pb-24">
-                <Header />
-                <main className="flex-1 flex items-center justify-center px-4">
-                    <p className="text-gray-400">Loading featured song...</p>
-                </main>
-                <SecretButton
-                    onUnlock={handleAdminUnlock}
-                    onEdit={handleEditOpen}
-                />
-            </div>
-        );
+    // Add smooth transition after data loads
+    useEffect(() => {
+        if (!loading) {
+            const timer = setTimeout(() => {
+                setContentReady(true);
+            }, 300); // Small delay for smooth transition
+
+            return () => clearTimeout(timer);
+        }
+    }, [loading]);
+
+    // Show loading animation while fetching data or content isn't ready
+    if (loading || !contentReady) {
+        return <LoadingSkeleton />; // Change to <LoadingSpinner /> if you prefer the spinner
     }
 
     if (error) {
         return (
-            <div className="min-h-screen bg-white flex flex-col relative pb-24">
+            <div className="min-h-screen bg-white flex flex-col relative pb-24 animate-fadeIn">
                 <Header />
                 <main className="flex-1 flex items-center justify-center px-4">
                     <div className="text-center">
@@ -127,19 +175,21 @@ function Home() {
     }
 
     return (
-        <div className="min-h-screen bg-white flex flex-col relative pb-24">
+        <div className="min-h-screen bg-white flex flex-col relative pb-24 animate-fadeIn">
             <Header />
             <main className="flex-1 flex items-center justify-center px-4">
                 {song ? (
-                    <FeaturedSong
-                        title={song.title}
-                        artist={song.artist}
-                        artworkUrl={song.artwork_url || ""}
-                        embedUrl={song.link || ""}
-                        appleMusicUrl={song.apple_music_url}
-                    />
+                    <div className="animate-slideIn">
+                        <FeaturedSong
+                            title={song.title}
+                            artist={song.artist}
+                            artworkUrl={song.artwork_url || ""}
+                            embedUrl={song.link || ""}
+                            appleMusicUrl={song.apple_music_url}
+                        />
+                    </div>
                 ) : (
-                    <p className="text-gray-400">No featured song yet.</p>
+                    <p className="text-gray-400 animate-fadeIn">No featured song yet.</p>
                 )}
             </main>
 
