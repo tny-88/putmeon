@@ -24,11 +24,9 @@ function FeaturedSong({ title, artist, artworkUrl, embedUrl, appleMusicUrl }: Pr
             <div className="w-full mt-4">
                 <iframe
                     src={embedUrl}
-                    width="100%"
-                    height="80"
                     allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
                     loading="lazy"
-                    className="rounded-md border-none"
+                    className="w-full h-full border-none"
                 />
             </div>
 
