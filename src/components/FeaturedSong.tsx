@@ -10,9 +10,9 @@ function FeaturedSong({ title, artist, artworkUrl, embedUrl, appleMusicUrl }: Pr
     const fallbackUrl = "/fallback";
 
     return (
-        <div className="p-3 sm:p-4 md:p-5 max-w-xs sm:max-w-sm md:max-w-md w-full text-center mx-auto">
+        <div className="p-2 sm:p-3 md:p-4 max-w-xs sm:max-w-sm md:max-w-md w-full text-center mx-auto">
             {/* Artwork with responsive sizing */}
-            <div className="relative mb-3 sm:mb-4 md:mb-6">
+            <div className="relative mb-2 sm:mb-3 md:mb-4">
                 <img
                     src={artworkUrl}
                     alt={`${title} artwork`}
@@ -21,8 +21,8 @@ function FeaturedSong({ title, artist, artworkUrl, embedUrl, appleMusicUrl }: Pr
             </div>
 
             {/* Song info with responsive text sizing */}
-            <div className="mb-3 sm:mb-4 px-2">
-                <h2 className="text-lg sm:text-xl md:text-2xl font-semibold text-black leading-tight mb-1 sm:mb-2">
+            <div className="mb-2 sm:mb-3 px-2">
+                <h2 className="text-lg sm:text-xl md:text-2xl font-semibold text-black leading-tight mb-1">
                     {title}
                 </h2>
                 <p className="text-gray-500 text-sm sm:text-base md:text-lg">
@@ -31,7 +31,7 @@ function FeaturedSong({ title, artist, artworkUrl, embedUrl, appleMusicUrl }: Pr
             </div>
 
             {/* Spotify/Music embed with responsive height */}
-            <div className="w-full mb-3 sm:mb-4 rounded-lg overflow-hidden">
+            <div className="w-full mb-2 sm:mb-3 rounded-lg overflow-hidden">
                 <iframe
                     src={embedUrl}
                     allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
@@ -42,12 +42,12 @@ function FeaturedSong({ title, artist, artworkUrl, embedUrl, appleMusicUrl }: Pr
             </div>
 
             {/* Apple Music Button with responsive styling */}
-            <div className="mt-3 sm:mt-4">
+            <div className="mt-1 sm:mt-2">
                 <a
                     href={appleMusicUrl || fallbackUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1 text-xs sm:text-sm md:text-base font-medium text-black underline hover:text-gray-700 transition-colors duration-200 px-2 py-1"
+                    className="inline-flex items-center gap-1 text-xs sm:text-sm md:text-base font-medium text-black underline hover:text-gray-700 transition-colors duration-200"
                 >
                     Listen on Apple Music
                     <span className="text-xs sm:text-sm">→</span>

@@ -16,21 +16,21 @@ type CuratedSong = {
 
 // Loading skeleton component
 const LoadingSkeleton = () => (
-    <div className="min-h-screen bg-white flex flex-col relative pb-4 sm:pb-6 md:pb-10">
+    <div className="min-h-screen bg-white flex flex-col relative pb-2 sm:pb-4">
         <Header />
         <main className="flex-1 flex items-center justify-center px-4 sm:px-6 lg:px-8">
             <div className="w-full max-w-sm sm:max-w-md">
                 {/* Skeleton for artwork */}
-                <div className="w-48 h-48 sm:w-56 sm:h-56 md:w-64 md:h-64 bg-gray-200 rounded-lg mx-auto mb-4 sm:mb-6 animate-pulse"></div>
+                <div className="w-48 h-48 sm:w-56 sm:h-56 md:w-64 md:h-64 bg-gray-200 rounded-lg mx-auto mb-2 sm:mb-3 animate-pulse"></div>
 
                 {/* Skeleton for song title */}
-                <div className="h-6 sm:h-7 md:h-8 bg-gray-200 rounded mb-2 sm:mb-3 animate-pulse"></div>
+                <div className="h-6 sm:h-7 md:h-8 bg-gray-200 rounded mb-1 sm:mb-2 animate-pulse"></div>
 
                 {/* Skeleton for artist */}
-                <div className="h-4 sm:h-5 md:h-6 bg-gray-200 rounded w-3/4 mx-auto mb-3 sm:mb-4 animate-pulse"></div>
+                <div className="h-4 sm:h-5 md:h-6 bg-gray-200 rounded w-3/4 mx-auto mb-2 sm:mb-3 animate-pulse"></div>
 
                 {/* Skeleton for embed player */}
-                <div className="h-32 sm:h-36 md:h-40 bg-gray-200 rounded mb-3 sm:mb-4 animate-pulse"></div>
+                <div className="h-20 sm:h-23 md:h-26 bg-gray-200 rounded mb-2 sm:mb-3 animate-pulse"></div>
 
                 {/* Skeleton for Apple Music button */}
                 <div className="h-6 w-32 bg-gray-200 rounded mx-auto animate-pulse"></div>
@@ -137,7 +137,7 @@ function Home() {
 
     if (error) {
         return (
-            <div className="min-h-screen bg-white flex flex-col relative sm:pb-24 animate-fadeIn">
+            <div className="min-h-screen bg-white flex flex-col relative pb-2 sm:pb-4 animate-fadeIn">
                 <Header />
                 <main className="flex-1 flex items-center justify-center px-4 sm:px-6">
                     <div className="text-center max-w-sm sm:max-w-md">
@@ -161,7 +161,7 @@ function Home() {
     }
 
     return (
-        <div className="min-h-screen bg-white flex flex-col relative pb-7 sm:pb-10 animate-fadeIn">
+        <div className="min-h-screen bg-white flex flex-col relative pb-2 sm:pb-4 animate-fadeIn">
             <Header />
             <main className="flex-1 flex items-center justify-center px-4 sm:px-6 lg:px-8">
                 {song ? (
@@ -197,8 +197,6 @@ function Home() {
             />
             <Footer />
         </div>
-
-
     );
 }
 
