@@ -1,1 +1,28 @@
 @import "tailwindcss";
+
+@font-face {
+    font-family: 'Figtree';
+    src: url('/src/assets/fonts/Figtree/Figtree[wght].woff2') format('woff2');
+    font-weight: 100 900; /* weight range for variable font */
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Figtree';
+    src: url('/src/assets/fonts/Figtree/Figtree-Italic[wght].woff2') format('woff2');
+    font-weight: 100 900;
+    font-style: italic;
+    font-display: swap;
+}
+
+@theme {
+    --font-sans: 'Figtree', 'sans-serif';
+}
+
+/* Apply it globally */
+@layer base {
+    html {
+        @apply font-sans;
+    }
+}

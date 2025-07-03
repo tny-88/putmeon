@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { supabase } from '../supabaseClient';
 import { toast } from 'sonner';
 
@@ -13,12 +13,25 @@ function RecommendModal({ isOpen, onClose }: RecommendModalProps) {
     const [artist, setArtist] = useState('');
     const [link, setLink] = useState('');
     const [loading, setLoading] = useState(false);
-    const [success, setSuccess] = useState(false);
+
+    // Handle ESC key
+    useEffect(() => {
+        const handleEsc = (e: KeyboardEvent) => {
+            if (e.key === 'Escape') onClose();
+        };
+        if (isOpen) {
+            document.addEventListener('keydown', handleEsc);
+            document.body.style.overflow = 'hidden';
+        }
+        return () => {
+            document.removeEventListener('keydown', handleEsc);
+            document.body.style.overflow = 'unset';
+        };
+    }, [isOpen, onClose]);
 
     if (!isOpen) return null;
 
     const isValid = name.trim() !== '' && title.trim() !== '' && artist.trim() !== '';
-
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -38,83 +51,109 @@ function RecommendModal({ isOpen, onClose }: RecommendModalProps) {
         if (error) {
             toast.error("Failed to submit: " + error.message);
         } else {
-            setSuccess(true);
             setName('');
             setTitle('');
             setArtist('');
             setLink('');
-            setTimeout(() => {
-                setSuccess(false);
-                onClose();
-            }, 1200);
+            onClose();
             toast.success("Thanks lil bro");
         }
     };
 
     return (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-            <div className="bg-white rounded-lg p-6 w-4/5 max-w-md shadow-xl max-h-[90vh] overflow-y-auto sm:p-8">
-            <h2 className="text-xl font-semibold mb-4">Recommend a Song</h2>
-
-                <form onSubmit={handleSubmit} className="space-y-3">
-                    <input
-                        type="text"
-                        placeholder="Your name"
-                        className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-black"
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                        required
-                    />
-                    <input
-                        type="text"
-                        placeholder="Song title"
-                        className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-black"
-                        value={title}
-                        onChange={(e) => setTitle(e.target.value)}
-                        required
-                    />
-                    <input
-                        type="text"
-                        placeholder="Artist"
-                        className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-black"
-                        value={artist}
-                        onChange={(e) => setArtist(e.target.value)}
-                        required
-                    />
-                    <input
-                        type="url"
-                        placeholder="Link (optional)"
-                        className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-black"
-                        value={link}
-                        onChange={(e) => setLink(e.target.value)}
-                    />
-
-                    <div className="flex justify-between items-center pt-3">
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+            <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md max-h-[90vh] overflow-y-auto transform transition-all duration-300 scale-100 animate-in fade-in-0 zoom-in-95">
+                <div className="p-6 sm:p-8">
+                    <div className="flex items-center justify-between mb-6">
+                        <h2 className="text-2xl font-bold text-gray-900">Recommend a Song</h2>
                         <button
-                            type="button"
                             onClick={onClose}
-                            className="text-sm text-gray-600 hover:underline"
-                            disabled={loading}
+                            className="text-gray-400 hover:text-gray-600 transition-colors p-1"
                         >
-                            Cancel
-                        </button>
-                        <button
-                            type="submit"
-                            disabled={!isValid || loading}
-                            className={`px-4 py-2 text-sm rounded ${
-                                isValid
-                                    ? 'bg-black text-white hover:bg-gray-800'
-                                    : 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                            } transition-all`}
-                        >
-                            {loading ? 'Sending...' : 'Submit'}
+                            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                            </svg>
                         </button>
                     </div>
 
-                    {success && (
-                        <p className="text-green-600 text-sm text-right pt-2">✓ Submitted!</p>
-                    )}
-                </form>
+                    <form onSubmit={handleSubmit} className="space-y-4">
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">Your name</label>
+                            <input
+                                type="text"
+                                placeholder="Enter your name"
+                                className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition-all duration-200 bg-gray-50 hover:bg-white"
+                                value={name}
+                                onChange={(e) => setName(e.target.value)}
+                                required
+                            />
+                        </div>
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">Song title</label>
+                            <input
+                                type="text"
+                                placeholder="Enter song title"
+                                className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition-all duration-200 bg-gray-50 hover:bg-white"
+                                value={title}
+                                onChange={(e) => setTitle(e.target.value)}
+                                required
+                            />
+                        </div>
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">Artist</label>
+                            <input
+                                type="text"
+                                placeholder="Enter artist name"
+                                className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition-all duration-200 bg-gray-50 hover:bg-white"
+                                value={artist}
+                                onChange={(e) => setArtist(e.target.value)}
+                                required
+                            />
+                        </div>
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">Link (optional)</label>
+                            <input
+                                type="url"
+                                placeholder="Paste a link to the song"
+                                className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition-all duration-200 bg-gray-50 hover:bg-white"
+                                value={link}
+                                onChange={(e) => setLink(e.target.value)}
+                            />
+                        </div>
+
+                        <div className="flex justify-between items-center pt-6">
+                            <button
+                                type="button"
+                                onClick={onClose}
+                                className="px-6 py-3 text-gray-600 hover:text-gray-800 font-medium rounded-xl transition-colors order-2 sm:order-1"
+                                disabled={loading}
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                type="submit"
+                                disabled={!isValid || loading}
+                                className={`px-6 py-3 rounded-xl font-medium transition-all duration-200 flex items-center justify-center gap-2 order-1 sm:order-2 ${
+                                    isValid && !loading
+                                        ? 'bg-black text-white hover:bg-gray-800'
+                                        : 'bg-gray-200 text-gray-500 cursor-not-allowed'
+                                }`}
+                            >
+                                {loading ? (
+                                    <>
+                                        <svg className="animate-spin h-5 w-5" fill="none" viewBox="0 0 24 24">
+                                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                        </svg>
+                                        Sending...
+                                    </>
+                                ) : (
+                                    'Submit'
+                                )}
+                            </button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     );

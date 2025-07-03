@@ -145,7 +145,7 @@ function Recommendations() {
                     RE <br /> CS
                 </h1>
                 <a
-                    href="/"
+                    href="/home"
                     className="text-black font-bold hover:underline text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl transition-all duration-200 hover:text-gray-700"
                 >
                     Home
