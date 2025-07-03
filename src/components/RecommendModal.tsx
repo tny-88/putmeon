@@ -92,7 +92,7 @@ function RecommendModal({ isOpen, onClose }: RecommendModalProps) {
                             <label className="block text-sm font-medium text-gray-700 mb-2">Song title</label>
                             <input
                                 type="text"
-                                placeholder="Enter song title"
+                                placeholder="Enter the song's title"
                                 className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition-all duration-200 bg-gray-50 hover:bg-white"
                                 value={title}
                                 onChange={(e) => setTitle(e.target.value)}
@@ -103,7 +103,7 @@ function RecommendModal({ isOpen, onClose }: RecommendModalProps) {
                             <label className="block text-sm font-medium text-gray-700 mb-2">Artist</label>
                             <input
                                 type="text"
-                                placeholder="Enter artist name"
+                                placeholder="Enter the artist's name"
                                 className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition-all duration-200 bg-gray-50 hover:bg-white"
                                 value={artist}
                                 onChange={(e) => setArtist(e.target.value)}

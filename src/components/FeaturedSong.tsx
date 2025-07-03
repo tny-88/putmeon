@@ -16,7 +16,7 @@ function FeaturedSong({ title, artist, artworkUrl, embedUrl, appleMusicUrl }: Pr
                 <img
                     src={artworkUrl}
                     alt={`${title} artwork`}
-                    className="w-75 h-75 sm:w-80 sm:h-80 md:w-90 md:h-90 object-cover rounded-xl mx-auto shadow-lg"
+                    className="w-70 h-70 sm:w-75 sm:h-75 md:w-80 md:h-80 object-cover rounded-xl mx-auto shadow-lg"
                 />
             </div>
 
