@@ -1,6 +1,6 @@
 function Header() {
     return (
-        <header className="sticky top-0 z-50 flex justify-between items-start sm:items-center p-4 sm:p-6 md:p-8 lg:p-10">
+        <header className="sticky top-0 z-50 bg-white flex justify-between items-center p-4 sm:p-6 md:p-8 lg:p-10 pb-3 sm:pb-4 md:pb-5 border-b border-gray-100">
             {/* Logo/Title with responsive sizing */}
             <div className="flex-shrink-0">
                 <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold text-black leading-tight">
