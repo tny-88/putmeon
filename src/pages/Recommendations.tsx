@@ -68,7 +68,7 @@ function Recommendations() {
         try {
             const textToCopy = `${artist} ${songTitle}`;
             await navigator.clipboard.writeText(textToCopy);
-            toast.success('Copied to clipboard');
+            toast.success('Song details copied to clipboard');
         } catch (err) {
             console.error('Failed to copy:', err);
             toast.error('Failed to copy');
