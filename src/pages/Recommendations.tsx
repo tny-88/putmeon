@@ -2,6 +2,7 @@ import { useEffect, useState, useCallback } from 'react';
 import { supabase } from '../supabaseClient';
 import RecommendButton from "../components/RecommendButton";
 import SecretButton from "../components/SecretButton";
+import { toast } from 'sonner';
 
 type Recommendation = {
     id: string;
@@ -50,7 +51,6 @@ function Recommendations() {
 
             if (error) throw error;
             setEditingId(null);
-
             // Optimistically update local state
             setRecs(prev => prev.map(rec =>
                 rec.id === recId ? { ...rec, rating: newRating } : rec
@@ -61,6 +61,17 @@ function Recommendations() {
             alert('Failed to update rating: ' + errorMessage);
         } finally {
             setUpdatingRating(false);
+        }
+    }, []);
+
+    const copyToClipboard = useCallback(async (artist: string, songTitle: string) => {
+        try {
+            const textToCopy = `${artist} ${songTitle}`;
+            await navigator.clipboard.writeText(textToCopy);
+            toast.success('Copied to clipboard');
+        } catch (err) {
+            console.error('Failed to copy:', err);
+            toast.error('Failed to copy');
         }
     }, []);
 
@@ -164,7 +175,7 @@ function Recommendations() {
                             {recs.slice(0, visibleCount).map((rec) => (
                                 <li
                                     key={rec.id}
-                                    className="bg-white border border-gray-100 rounded-lg p-4 sm:p-5 md:p-6 lg:p-8 transition-all duration-200 hover:shadow-md hover:border-gray-200"
+                                    className="bg-white border border-gray-100 rounded-lg p-4 sm:p-5 md:p-6 lg:p-8 transition-all duration-200 hover:shadow-md hover:border-gray-200 relative"
                                 >
                                     {/* Song title and artist */}
                                     <div className="mb-2 sm:mb-3">
@@ -234,9 +245,10 @@ function Recommendations() {
                                         )}
                                     </div>
 
-                                    {/* Listen link */}
-                                    {rec.link && (
-                                        <div>
+                                    {/* Action buttons row */}
+                                    <div className="flex items-center gap-3">
+                                        {/* Listen link */}
+                                        {rec.link && (
                                             <a
                                                 href={rec.link}
                                                 target="_blank"
@@ -246,8 +258,16 @@ function Recommendations() {
                                                 Listen
                                                 <span className="text-xs">→</span>
                                             </a>
-                                        </div>
-                                    )}
+                                        )}
+                                    </div>
+
+                                    {/* Copy button positioned at bottom right */}
+                                    <button
+                                        onClick={() => copyToClipboard(rec.artist, rec.song_title)}
+                                        className="absolute bottom-4 right-4 bg-black text-white px-3 py-1 rounded text-xs sm:text-sm hover:bg-gray-800 transition-colors duration-200"
+                                    >
+                                        Copy
+                                    </button>
                                 </li>
                             ))}
                         </ul>
