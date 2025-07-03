@@ -18,7 +18,7 @@ function Header() {
                 >
                     FOR <br className="sm:hidden" />
                     <span className="hidden sm:inline"><br /></span>
-                    ME
+                    MOI
                 </a>
             </div>
         </header>
