@@ -92,13 +92,13 @@ function Recommendations() {
             <div className="min-h-screen bg-white flex flex-col relative pb-16 sm:pb-20 md:pb-24">
                 <header className="sticky top-0 z-50 bg-white flex justify-between items-center p-4 sm:p-6 md:p-8 lg:p-10 pb-3 sm:pb-4 md:pb-5 border-b border-gray-100">
                     <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold text-black leading-tight">
-                        RE <br /> CS
+                        PUT ME <br /> ON
                     </h1>
                     <a
                         href="/"
                         className="text-black font-bold hover:underline text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl transition-all duration-200 hover:text-gray-700"
                     >
-                        Home
+                        HO <br/> ME
                     </a>
                 </header>
                 <div className="flex-1 flex items-center justify-center p-4">
@@ -142,13 +142,13 @@ function Recommendations() {
             {/* Mobile-optimized header */}
             <header className="sticky top-0 z-50 bg-white flex justify-between items-center p-4 sm:p-6 md:p-8 lg:p-10 pb-3 sm:pb-4 md:pb-5 border-b border-gray-100">
                 <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold text-black leading-tight">
-                    RE <br /> CS
+                    PUT ME <br /> ON
                 </h1>
                 <a
                     href="/home"
                     className="text-black font-bold hover:underline text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl transition-all duration-200 hover:text-gray-700"
                 >
-                    Home
+                    HO <br/> ME
                 </a>
             </header>
 
