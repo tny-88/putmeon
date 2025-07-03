@@ -28,8 +28,3 @@
     }
 }
 
-@layer base {
-    html, body {
-        @apply overscroll-none;
-    }
-}

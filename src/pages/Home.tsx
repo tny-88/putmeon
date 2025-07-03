@@ -16,7 +16,7 @@ type CuratedSong = {
 
 // Loading skeleton component
 const LoadingSkeleton = () => (
-    <div className="min-h-screen bg-white flex flex-col relative pb-15 sm:pb-20">
+    <div className="min-h-screen bg-white flex flex-col relative pb-4 sm:pb-6 md:pb-10">
         <Header />
         <main className="flex-1 flex items-center justify-center px-4 sm:px-6 lg:px-8">
             <div className="w-full max-w-sm sm:max-w-md">
