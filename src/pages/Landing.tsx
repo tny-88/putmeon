@@ -1,4 +1,5 @@
 import Footer from "../components/Footer.tsx";
+import  {IconArrowRight} from "@tabler/icons-react"
 
 function Landing() {
     return (
@@ -9,20 +10,21 @@ function Landing() {
                     <div className="mb-6 sm:mb-8 md:mb-10">
                         <div className=" mx-auto flex items-center justify-center">
                             <img
-                                className={"w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 lg:w-32 lg:h-32"}
-                                src={"/site_logo.svg"}
+                                className={"w-20 h-10 sm:w-24 sm:h-14 md:w-28 md:h-18 lg:w-32 lg:h-22"}
+                                src={"/site_logo_2.png"}
                                 alt={`logo`}/>
                         </div>
                     </div>
 
                     {/* Purpose message */}
                     <div className="mb-6 sm:mb-8 md:mb-10 px-2">
-                        <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-black leading-relaxed font-light">
-                            Firstly, this is a selfish project. I want your music recommendations but
-                            in exchange you get a song from me.
+                        <p className="text-xs sm:text-sm md:text-base lg:text-xl text-black leading-tight font-light text-left pb-20">
+                            Firstly, this is a selfish project as it's meant for me and less for you all.
+                            Now lets make a unfair trade. You get a song from me and in exchange I
+                            get recommendations from you. I will rate these recommendations so put me on game.
                         </p>
-                        <p className="pt-5 text-xs sm:text-sm md:text-base lg:text-lag text-gray-400 leading-relaxed font-light">
-                            Disclaimer: I will rate your suggestions
+                        <p className="text-xs sm:text-sm md:text-base lg:text-lag text-gray-400 leading-relaxed font-light text-right">
+                            ~ Terence, Mastermind
                         </p>
                     </div>
 
@@ -30,9 +32,9 @@ function Landing() {
                     <div>
                         <a
                             href="/home"
-                            className="inline-block bg-black text-white px-6 sm:px-8 py-3 sm:py-4 rounded-full hover:bg-gray-800 transition-all duration-300 text-sm sm:text-base md:text-lg font-medium hover:shadow-lg transform hover:scale-105"
+                            className="inline-block bg-black text-white px-2 sm:px-4 py-3 sm:py-4 rounded-full hover:bg-gray-800 transition-all duration-300 text-sm sm:text-base md:text-lg font-medium hover:shadow-lg transform hover:scale-105"
                         >
-                            Proceed lil bro
+                            <IconArrowRight className="h-6 w-6" aria-hidden="true" />
                         </a>
                     </div>
                 </div>

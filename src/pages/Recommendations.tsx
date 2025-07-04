@@ -11,6 +11,7 @@ type Recommendation = {
     artist: string;
     link: string | null;
     rating: number | null;
+    created_at: string;
 };
 
 function Recommendations() {
@@ -21,6 +22,17 @@ function Recommendations() {
     const [editingId, setEditingId] = useState<string | null>(null);
     const [visibleCount, setVisibleCount] = useState(3);
     const [updatingRating, setUpdatingRating] = useState(false);
+
+    const formatDateTime = (dateTimeString: string) => {
+        const date = new Date(dateTimeString);
+        const day = String(date.getDate()).padStart(2, '0');
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const year = date.getFullYear();
+        const hours = String(date.getHours()).padStart(2, '0');
+        const minutes = String(date.getMinutes()).padStart(2, '0');
+
+        return `${day}/${month}/${year} ${hours}:${minutes}`;
+    };
 
     const fetchRecs = useCallback(async () => {
         try {
@@ -177,8 +189,13 @@ function Recommendations() {
                                     key={rec.id}
                                     className="bg-white border border-gray-100 rounded-lg p-4 sm:p-5 md:p-6 lg:p-8 transition-all duration-200 hover:shadow-md hover:border-gray-200 relative"
                                 >
+                                    {/* Date/Time in top right */}
+                                    <div className="absolute top-4 right-4 text-xs text-gray-500">
+                                        {formatDateTime(rec.created_at)}
+                                    </div>
+
                                     {/* Song title and artist */}
-                                    <div className="mb-2 sm:mb-3">
+                                    <div className="mb-2 sm:mb-3 pr-20 sm:pr-24">
                                         <div className="flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-2">
                                             <span className="text-sm sm:text-base md:text-lg font-medium text-black leading-tight">
                                                 {rec.song_title}
