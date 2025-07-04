@@ -274,8 +274,8 @@ function Recommendations() {
 
                                     {/* Message section */}
                                     {rec.message && (
-                                        <div className="mb-2 sm:mb-3 sm:p-1 md:p-2 lg:p-3 bg-gray-100 rounded-lg">
-                                            <div className="flex items-start justify-between justify-center gap-2">
+                                        <div className="mb-2 sm:mb-3 sm:p-2 md:p-2 lg:p-3 bg-gray-100 rounded-lg">
+                                            <div className="flex items-start justify-center gap-2">
                                                 <p className="text-xs sm:text-sm text-gray-700 leading-relaxed">
                                                     {rec.message}
                                                 </p>
