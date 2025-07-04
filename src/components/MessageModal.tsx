@@ -81,7 +81,7 @@ function MessageModal({ recommendationId, existingMessage, onClose, onUpdate }: 
         }
     };
 
-    const remainingCharacters = MAX_CHARACTERS - message.length;
+    // const remainingCharacters = MAX_CHARACTERS - message.length;
     const isAtLimit = message.length >= MAX_CHARACTERS;
 
     return (
