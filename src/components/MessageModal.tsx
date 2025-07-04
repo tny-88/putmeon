@@ -12,6 +12,7 @@ type Props = {
 function MessageModal({ recommendationId, existingMessage, onClose, onUpdate }: Props) {
     const [message, setMessage] = useState(existingMessage || "");
     const [loading, setLoading] = useState(false);
+    const MAX_CHARACTERS = 100;
 
     // Handle ESC key
     useEffect(() => {
@@ -73,6 +74,16 @@ function MessageModal({ recommendationId, existingMessage, onClose, onUpdate }: 
         }
     };
 
+    const handleMessageChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+        const newMessage = e.target.value;
+        if (newMessage.length <= MAX_CHARACTERS) {
+            setMessage(newMessage);
+        }
+    };
+
+    const remainingCharacters = MAX_CHARACTERS - message.length;
+    const isAtLimit = message.length >= MAX_CHARACTERS;
+
     return (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
             <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md max-h-[90vh] overflow-y-auto transform transition-all duration-300 scale-100 animate-in fade-in-0 zoom-in-95">
@@ -94,12 +105,24 @@ function MessageModal({ recommendationId, existingMessage, onClose, onUpdate }: 
                             <label className="block text-sm font-medium text-gray-700 mb-2">Message</label>
                             <textarea
                                 placeholder="Enter your message..."
-                                className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition-all duration-200 bg-gray-50 hover:bg-white resize-none"
+                                className={`w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:border-transparent transition-all duration-200 bg-gray-50 hover:bg-white resize-none ${
+                                    isAtLimit
+                                        ? 'border-red-300 focus:ring-red-500'
+                                        : 'border-gray-200 focus:ring-black'
+                                }`}
                                 value={message}
-                                onChange={(e) => setMessage(e.target.value)}
+                                onChange={handleMessageChange}
                                 rows={4}
+                                maxLength={MAX_CHARACTERS}
                             />
-                            <p className="text-xs text-gray-500 mt-1">Leave empty to remove the message</p>
+                            <div className="flex justify-between items-center mt-2">
+                                <p className="text-xs text-gray-500">Leave empty to remove the message</p>
+                                <p className={`text-xs font-medium ${
+                                    isAtLimit ? 'text-red-600' : 'text-gray-500'
+                                }`}>
+                                    {message.length}/{MAX_CHARACTERS}
+                                </p>
+                            </div>
                         </div>
 
                         <div className="flex justify-between items-center pt-6">
