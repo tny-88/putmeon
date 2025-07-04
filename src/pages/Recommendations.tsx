@@ -275,7 +275,7 @@ function Recommendations() {
                                     {/* Message section */}
                                     {rec.message && (
                                         <div className="mb-2 sm:mb-3 sm:p-1 md:p-2 lg:p-3 bg-gray-100 rounded-lg">
-                                            <div className="flex items-start justify-between gap-2">
+                                            <div className="flex items-start justify-between justify-center gap-2">
                                                 <p className="text-xs sm:text-sm text-gray-700 leading-relaxed">
                                                     {rec.message}
                                                 </p>
@@ -322,7 +322,7 @@ function Recommendations() {
                                     </div>
 
                                     {/* Copy button positioned at bottom right */}
-                                    <div className="pt-1">
+                                    <div className="pt-2">
                                         <button
                                             onClick={() => copyToClipboard(rec.artist, rec.song_title)}
                                             className="absolute bottom-4 right-4 bg-black text-white px-3 py-1 rounded text-xs sm:text-sm hover:bg-gray-800 transition-colors duration-200"
