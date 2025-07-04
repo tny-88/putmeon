@@ -2,6 +2,7 @@ import { useEffect, useState, useCallback } from 'react';
 import { supabase } from '../supabaseClient';
 import RecommendButton from "../components/RecommendButton";
 import SecretButton from "../components/SecretButton";
+import MessageModal from "../components/MessageModal";
 import { toast } from 'sonner';
 
 type Recommendation = {
@@ -12,6 +13,7 @@ type Recommendation = {
     link: string | null;
     rating: number | null;
     created_at: string;
+    message: string | null;
 };
 
 function Recommendations() {
@@ -22,6 +24,7 @@ function Recommendations() {
     const [editingId, setEditingId] = useState<string | null>(null);
     const [visibleCount, setVisibleCount] = useState(3);
     const [updatingRating, setUpdatingRating] = useState(false);
+    const [editingMessageId, setEditingMessageId] = useState<string | null>(null);
 
     const formatDateTime = (dateTimeString: string) => {
         const date = new Date(dateTimeString);
@@ -74,6 +77,13 @@ function Recommendations() {
         } finally {
             setUpdatingRating(false);
         }
+    }, []);
+
+    const updateMessage = useCallback((recId: string, newMessage: string | null) => {
+        setRecs(prev => prev.map(rec =>
+            rec.id === recId ? { ...rec, message: newMessage } : rec
+        ));
+        setEditingMessageId(null);
     }, []);
 
     const copyToClipboard = useCallback(async (artist: string, songTitle: string) => {
@@ -247,7 +257,7 @@ function Recommendations() {
                                         ) : (
                                             <div className="flex items-center gap-2">
                                                 <span className="text-xs sm:text-sm text-gray-700 font-medium">
-                                                    {rec.rating !== null ? `${rec.rating}/10` : 'No rating yet'}
+                                                    {rec.rating !== null ? `Rating: ${rec.rating}/10` : 'No rating yet'}
                                                 </span>
                                                 {isAdmin && (
                                                     <button
@@ -261,6 +271,39 @@ function Recommendations() {
                                             </div>
                                         )}
                                     </div>
+
+                                    {/* Message section */}
+                                    {rec.message && (
+                                        <div className="mb-2 sm:mb-3 p-3 bg-gray-100 rounded-lg ">
+                                            <div className="flex items-start justify-between gap-2">
+                                                <p className="text-xs sm:text-sm text-gray-700 leading-relaxed">
+                                                    {rec.message}
+                                                </p>
+                                                {isAdmin && (
+                                                    <button
+                                                        onClick={() => setEditingMessageId(rec.id)}
+                                                        className="text-gray-400 hover:text-black transition-colors duration-200 p-1 flex-shrink-0"
+                                                        title="Edit message"
+                                                    >
+                                                        <span className="text-xs">✏️</span>
+                                                    </button>
+                                                )}
+                                            </div>
+                                        </div>
+                                    )}
+
+                                    {/* Add message button for admin when no message exists */}
+                                    {isAdmin && !rec.message && (
+                                        <div className="mb-2 sm:mb-3">
+                                            <button
+                                                onClick={() => setEditingMessageId(rec.id)}
+                                                className="text-xs text-gray-500 hover:text-black transition-colors duration-200 flex items-center gap-1"
+                                            >
+                                                <span>💬</span>
+                                                Add message
+                                            </button>
+                                        </div>
+                                    )}
 
                                     {/* Action buttons row */}
                                     <div className="flex items-center gap-3">
@@ -308,6 +351,16 @@ function Recommendations() {
             <RecommendButton />
             {!isAdmin && (
                 <SecretButton onUnlock={() => setIsAdmin(true)} />
+            )}
+
+            {/* Message Modal */}
+            {editingMessageId && (
+                <MessageModal
+                    recommendationId={editingMessageId}
+                    existingMessage={recs.find(r => r.id === editingMessageId)?.message || null}
+                    onClose={() => setEditingMessageId(null)}
+                    onUpdate={(message) => updateMessage(editingMessageId, message)}
+                />
             )}
         </div>
     );
