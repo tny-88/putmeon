@@ -81,7 +81,7 @@ function RecommendModal({ isOpen, onClose }: RecommendModalProps) {
                             <label className="block text-sm font-medium text-gray-700 mb-2">Your name</label>
                             <input
                                 type="text"
-                                placeholder="Enter your name"
+                                placeholder="Please leave your actual name"
                                 className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition-all duration-200 bg-gray-50 hover:bg-white"
                                 value={name}
                                 onChange={(e) => setName(e.target.value)}
