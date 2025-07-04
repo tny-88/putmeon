@@ -1,4 +1,3 @@
-import Footer from "../components/Footer.tsx";
 import  {IconArrowRight} from "@tabler/icons-react"
 
 function Landing() {
@@ -18,7 +17,7 @@ function Landing() {
 
                     {/* Purpose message */}
                     <div className="mb-6 sm:mb-8 md:mb-10 px-2">
-                        <p className="text-xs sm:text-sm md:text-base lg:text-xl text-black leading-tight font-light text-left pb-20">
+                        <p className="text-xs sm:text-sm md:text-base lg:text-xl text-black leading-tight font-light text-left pb-15">
                             Firstly, this is a selfish project as it's meant for me and less for you all.
                             Now lets make a unfair trade. You get a song from me and in exchange I
                             get recommendations from you. I will rate these recommendations so put me on game.
@@ -32,15 +31,14 @@ function Landing() {
                     <div>
                         <a
                             href="/home"
-                            className="inline-block bg-black text-white px-2 sm:px-4 py-3 sm:py-4 rounded-full hover:bg-gray-800 transition-all duration-300 text-sm sm:text-base md:text-lg font-medium hover:shadow-lg transform hover:scale-105"
+                            className="inline-flex items-center justify-center bg-black text-white  h-10 sm:w-12 sm:h-12 rounded-full hover:bg-gray-800 transition-all duration-300 text-base sm:text-lg font-medium hover:shadow-lg transform hover:scale-105"
                         >
                             <IconArrowRight className="h-6 w-6" aria-hidden="true" />
                         </a>
+
                     </div>
                 </div>
             </main>
-
-           <Footer />
 
         </div>
     );
