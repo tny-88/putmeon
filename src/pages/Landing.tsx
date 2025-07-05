@@ -1,5 +1,3 @@
-import  {IconArrowRight} from "@tabler/icons-react"
-
 function Landing() {
     return (
         <div className="h-screen bg-white flex flex-col relative overflow-hidden">
@@ -31,11 +29,10 @@ function Landing() {
                     <div>
                         <a
                             href="/home"
-                            className="inline-flex items-center justify-center bg-black text-white  h-10 sm:w-12 sm:h-12 rounded-full hover:bg-gray-800 transition-all duration-300 text-base sm:text-lg font-medium hover:shadow-lg transform hover:scale-105"
+                            className="inline-block bg-black text-white px-6 sm:px-8 py-3 sm:py-4 rounded-full hover:bg-gray-800 transition-all duration-300 text-sm sm:text-base md:text-lg font-medium hover:shadow-lg transform hover:scale-105"
                         >
-                            <IconArrowRight className="h-6 w-6" aria-hidden="true" />
+                            Proceed lil bro
                         </a>
-
                     </div>
                 </div>
             </main>
