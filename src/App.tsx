@@ -4,6 +4,7 @@ import Recommendations from './pages/Recommendations';
 import Landing from "./pages/Landing.tsx";
 import Fallback from "./pages/Fallback.tsx";
 import { SpeedInsights } from '@vercel/speed-insights/react';
+import {Analytics} from '@vercel/analytics/react';
 
 function App() {
     return (
@@ -17,6 +18,7 @@ function App() {
             </Routes>
         </BrowserRouter>
             <SpeedInsights />
+            <Analytics />
         </>
 
     );
