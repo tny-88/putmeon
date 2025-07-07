@@ -274,15 +274,16 @@ function Recommendations() {
 
                                     {/* Message section */}
                                     {rec.message && (
-                                        <div className="mb-2 sm:mb-3 p-3 bg-gray-100 rounded-lg">
-                                            <div className="flex items-start justify-center gap-2">
-                                                <p className="text-xs sm:text-sm text-gray-700">
-                                                    {rec.message}
+                                        <div className="pb-3">
+                                            <div className="flex items-start gap-2">
+                                                <p className="text-xs sm:text-sm text-black">
+                                                    <span className="font-bold">Mastermind's Notes</span>
+                                                     : {rec.message}
                                                 </p>
                                                 {isAdmin && (
                                                     <button
                                                         onClick={() => setEditingMessageId(rec.id)}
-                                                        className="text-gray-400 hover:text-black transition-colors duration-200 p-1 flex-shrink-0"
+                                                        className="text-gray-400 hover:text-black transition-colors duration-200 flex-shrink-0"
                                                         title="Edit message"
                                                     >
                                                         <span className="text-xs">✏️</span>
