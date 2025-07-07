@@ -1,6 +1,5 @@
 import { useEffect, useState, useCallback } from 'react';
 import Header from "../components/Header";
-import Footer from "../components/Footer";
 import FeaturedSong from "../components/FeaturedSong";
 import EditCuratedModal from "../components/EditCuratedModal";
 import SecretButton from "../components/SecretButton";
@@ -41,6 +40,7 @@ const LoadingSkeleton = () => (
             onUnlock={() => {}}
             onEdit={() => {}}
         />
+        <MessageNavButton />
     </div>
 );
 
@@ -197,7 +197,6 @@ function Home() {
                 onEdit={handleEditOpen}
             />
             <MessageNavButton />
-            <Footer />
         </div>
     );
 }
