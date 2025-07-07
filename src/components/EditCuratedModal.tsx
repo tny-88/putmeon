@@ -156,20 +156,6 @@ function EditCuratedModal({ existingSong, onClose, onUpdate }: Props) {
                         </div>
 
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">Song title</label>
-                            <div className="w-full px-4 py-3 border border-gray-200 rounded-xl bg-gray-100 text-gray-700 min-h-[48px] flex items-center">
-                                {title || "Will be filled automatically from Spotify"}
-                            </div>
-                        </div>
-
-                        <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">Artist</label>
-                            <div className="w-full px-4 py-3 border border-gray-200 rounded-xl bg-gray-100 text-gray-700 min-h-[48px] flex items-center">
-                                {artist || "Will be filled automatically from Spotify"}
-                            </div>
-                        </div>
-
-                        <div>
                             <label className="block text-sm font-medium text-gray-700 mb-2">Apple Music Link</label>
                             <input
                                 type="url"
@@ -179,6 +165,24 @@ function EditCuratedModal({ existingSong, onClose, onUpdate }: Props) {
                                 onChange={(e) => setAppleMusicUrl(e.target.value)}
                             />
                         </div>
+
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">Song title</label>
+                            <div className="w-full px-4 py-3 border border-gray-200 rounded-xl bg-gray-100 text-gray-700 min-h-[48px] flex items-center">
+                                {title || "Will be filled automatically from Spotify"}
+                            </div>
+                        </div>
+
+
+
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">Artist</label>
+                            <div className="w-full px-4 py-3 border border-gray-200 rounded-xl bg-gray-100 text-gray-700 min-h-[48px] flex items-center">
+                                {artist || "Will be filled automatically from Spotify"}
+                            </div>
+                        </div>
+
+
 
                         <div>
                             <label className="block text-sm font-medium text-gray-700 mb-2">
