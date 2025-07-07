@@ -18,9 +18,9 @@ function Landing() {
                         <p className="text-xs sm:text-sm md:text-base lg:text-xl text-black leading-tight font-light text-left pb-15">
                             Firstly, this is a selfish project as it's meant for me and less for you all.
                             Now lets make a unfair trade. You get a song from me and in exchange I
-                            get recommendations from you. I will rate these recommendations so put me on game.
-                            You can reach the recommendations section by clicking the For Moi at the top right
-                            of the next page. I don't know how to make it more clear (mid at design) :(.
+                            get recommendations from you. Get to the recommendations page through experimentation
+                            or something, its not that hard. I will rate these recommendations so put me on game.
+                            
                         </p>
                         <p className="text-xs sm:text-sm md:text-base lg:text-lag text-gray-400 leading-relaxed font-light text-right">
                             ~ Terence, Mastermind

@@ -16,9 +16,9 @@ function Header() {
                     href="/recs"
                     className="text-black font-bold hover:underline text-base sm:text-lg md:text-xl lg:text-2xl leading-tight transition-all duration-200 hover:text-gray-700"
                 >
-                    FOR <br className="sm:hidden" />
-                    <span className="hidden sm:inline"><br /></span>
-                    MOI
+                    FOR<br />
+                    <span className="bg-black text-white">MOI</span>
+
                 </a>
             </div>
         </header>
