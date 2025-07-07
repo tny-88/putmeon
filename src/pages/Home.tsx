@@ -5,6 +5,7 @@ import FeaturedSong from "../components/FeaturedSong";
 import EditCuratedModal from "../components/EditCuratedModal";
 import SecretButton from "../components/SecretButton";
 import { supabase } from "../supabaseClient";
+import MessageNavButton from "../components/MessageNavButton.tsx";
 
 type CuratedSong = {
     title: string;
@@ -195,6 +196,7 @@ function Home() {
                 onUnlock={handleAdminUnlock}
                 onEdit={handleEditOpen}
             />
+            <MessageNavButton />
             <Footer />
         </div>
     );

@@ -5,6 +5,7 @@ import Landing from "./pages/Landing.tsx";
 import Fallback from "./pages/Fallback.tsx";
 import { SpeedInsights } from '@vercel/speed-insights/react';
 import {Analytics} from '@vercel/analytics/react';
+import Messages from "./pages/Messages.tsx";
 
 function App() {
     return (
@@ -15,6 +16,7 @@ function App() {
                 <Route path="/home" element={<Home />} />
                 <Route path="/recs" element={<Recommendations />} />
                 <Route path="/fallback" element={<Fallback />} />
+                <Route path="/messages" element={<Messages />}/>
             </Routes>
         </BrowserRouter>
             <SpeedInsights />
