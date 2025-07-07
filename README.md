@@ -1,6 +1,6 @@
 # 🎧 putmeon
 
-A clean, minimalist React + TypeScript web app for displaying a my song recommendations and yours.
+A clean, minimalist React + TypeScript web app for displaying my song recommendations and yours.
 
 ---
 
