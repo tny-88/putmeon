@@ -157,26 +157,16 @@ function EditCuratedModal({ existingSong, onClose, onUpdate }: Props) {
 
                         <div>
                             <label className="block text-sm font-medium text-gray-700 mb-2">Song title</label>
-                            <input
-                                type="text"
-                                placeholder="Enter song title"
-                                className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition-all duration-200 bg-gray-50 hover:bg-white"
-                                value={title}
-                                onChange={(e) => setTitle(e.target.value)}
-                                required
-                            />
+                            <div className="w-full px-4 py-3 border border-gray-200 rounded-xl bg-gray-100 text-gray-700 min-h-[48px] flex items-center">
+                                {title || "Will be filled automatically from Spotify"}
+                            </div>
                         </div>
 
                         <div>
                             <label className="block text-sm font-medium text-gray-700 mb-2">Artist</label>
-                            <input
-                                type="text"
-                                placeholder="Enter artist name"
-                                className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition-all duration-200 bg-gray-50 hover:bg-white"
-                                value={artist}
-                                onChange={(e) => setArtist(e.target.value)}
-                                required
-                            />
+                            <div className="w-full px-4 py-3 border border-gray-200 rounded-xl bg-gray-100 text-gray-700 min-h-[48px] flex items-center">
+                                {artist || "Will be filled automatically from Spotify"}
+                            </div>
                         </div>
 
                         <div>
@@ -195,13 +185,13 @@ function EditCuratedModal({ existingSong, onClose, onUpdate }: Props) {
                                 Artwork URL
                                 <span className="text-xs text-gray-500 ml-1">(auto-filled from Spotify)</span>
                             </label>
-                            <input
-                                type="url"
-                                placeholder="Enter artwork image URL"
-                                className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition-all duration-200 bg-gray-50 hover:bg-white"
-                                value={artwork}
-                                onChange={(e) => setArtwork(e.target.value)}
-                            />
+                            <div className="w-full px-4 py-3 border border-gray-200 rounded-xl bg-gray-100 text-gray-700 min-h-[48px] flex items-center">
+                                {artwork ? (
+                                    <span className="text-sm truncate">{artwork}</span>
+                                ) : (
+                                    "Will be filled automatically from Spotify"
+                                )}
+                            </div>
                             {artwork && (
                                 <div className="mt-2">
                                     <img
@@ -224,9 +214,9 @@ function EditCuratedModal({ existingSong, onClose, onUpdate }: Props) {
                             </button>
                             <button
                                 type="submit"
-                                disabled={loading || !title.trim() || !artist.trim() || fetchingSpotify}
+                                disabled={loading || !title.trim() || !artist.trim() || fetchingSpotify || !spotifyUrl.trim()}
                                 className={`px-6 py-3 rounded-xl font-medium transition-all duration-200 flex items-center justify-center gap-2 order-1 sm:order-2 ${
-                                    title.trim() && artist.trim() && !loading && !fetchingSpotify
+                                    title.trim() && artist.trim() && !loading && !fetchingSpotify && spotifyUrl.trim()
                                         ? 'bg-black text-white hover:bg-gray-800'
                                         : 'bg-gray-200 text-gray-500 cursor-not-allowed'
                                 }`}
