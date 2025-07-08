@@ -1,4 +1,4 @@
-import { IconArrowRight, IconMusic, IconHeart } from "@tabler/icons-react";
+import { IconArrowRight, IconMusic} from "@tabler/icons-react";
 
 function Landing() {
     return (
