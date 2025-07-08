@@ -34,17 +34,9 @@ function Landing() {
                         >
                             Proceed lil bro
                         </a>
-                        
-                        {/* Secondary helper text */}
-                        <p className="text-xs sm:text-sm text-gray-500 font-light">
-                            Click above to share music & get recommendations
-                        </p>
                     </div>
                 </div>
             </main>
-            
-            {/* Footer component would go here */}
-            {/* <Footer /> */}
         </div>
     );
 }

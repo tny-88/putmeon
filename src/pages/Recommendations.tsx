@@ -5,6 +5,7 @@ import SecretButton from "../components/SecretButton";
 import MessageModal from "../components/MessageModal";
 import { toast } from 'sonner';
 
+
 type Recommendation = {
     id: string;
     name: string;
@@ -127,12 +128,14 @@ function Recommendations() {
                     <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold text-black leading-tight">
                         PUT ME <br /> ON
                     </h1>
-                    <a
-                        href="/"
-                        className="text-black font-bold hover:underline text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl transition-all duration-200 hover:text-gray-700"
-                    >
-                        HO <br/> ME
-                    </a>
+                    <div className="flex-shrink-0 flex flex-col items-center text-center">
+                        <a
+                            href="/home"
+                            className="bg-black text-white font-bold px-4 py-2 sm:px-6 sm:py-3 md:px-8 md:py-4 rounded-full text-base sm:text-lg md:text-xl lg:text-2xl leading-tight transition-all duration-200 hover:bg-gray-800 hover:scale-105 active:scale-95 shadow-lg hover:shadow-xl flex items-center gap-2"
+                        >
+                            HOME
+                        </a>
+                    </div>
                 </header>
                 <div className="flex-1 flex items-center justify-center p-4">
                     <p className="text-base sm:text-lg text-gray-600">Loading...</p>
@@ -148,12 +151,14 @@ function Recommendations() {
                     <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold text-black leading-tight">
                         RE <br /> CS
                     </h1>
-                    <a
-                        href="/"
-                        className="text-black font-bold hover:underline text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl transition-all duration-200 hover:text-gray-700"
-                    >
-                        Home
-                    </a>
+                    <div className="flex-shrink-0 flex flex-col items-center text-center">
+                        <a
+                            href="/home"
+                            className="bg-black text-white font-bold px-4 py-2 sm:px-6 sm:py-3 md:px-8 md:py-4 rounded-full text-base sm:text-lg md:text-xl lg:text-2xl leading-tight transition-all duration-200 hover:bg-gray-800 hover:scale-105 active:scale-95 shadow-lg hover:shadow-xl flex items-center gap-2"
+                        >
+                            HOME
+                        </a>
+                    </div>
                 </header>
                 <div className="flex-1 flex flex-col items-center justify-center p-4 sm:p-6">
                     <p className="text-red-600 mb-4 text-sm sm:text-base text-center px-2">
@@ -177,12 +182,14 @@ function Recommendations() {
                 <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold text-black leading-tight">
                     PUT ME <br /> ON
                 </h1>
-                <a
-                    href="/home"
-                    className="text-black font-bold hover:underline text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl transition-all duration-200 hover:text-gray-700"
-                >
-                    HO <br/> ME
-                </a>
+                <div className="flex-shrink-0 flex flex-col items-center text-center">
+                    <a
+                        href="/home"
+                        className="bg-black text-white font-bold px-4 py-2 sm:px-6 sm:py-3 md:px-8 md:py-4 rounded-full text-base sm:text-lg md:text-xl lg:text-2xl leading-tight transition-all duration-200 hover:bg-gray-800 hover:scale-105 active:scale-95 shadow-lg hover:shadow-xl flex items-center gap-2"
+                    >
+                        HOME
+                    </a>
+                </div>
             </header>
 
             {recs.length === 0 ? (
