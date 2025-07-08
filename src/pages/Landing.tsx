@@ -1,5 +1,3 @@
-import { IconArrowRight, IconMusic} from "@tabler/icons-react";
-
 function Landing() {
     return (
         <div className="h-screen bg-white flex flex-col relative overflow-hidden">
@@ -34,9 +32,7 @@ function Landing() {
                             href="/home"
                             className="inline-flex items-center justify-center gap-2 bg-black text-white px-6 sm:px-8 py-3 sm:py-4 rounded-full hover:bg-gray-800 transition-all duration-300 text-sm sm:text-base md:text-lg font-medium hover:shadow-lg transform hover:scale-105 min-w-48"
                         >
-                            <IconMusic className="h-5 w-5" />
-                            Start the Exchange
-                            <IconArrowRight className="h-5 w-5" />
+                            Proceed lil bro
                         </a>
                         
                         {/* Secondary helper text */}

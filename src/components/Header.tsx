@@ -1,3 +1,5 @@
+import {IconCaretRightFilled} from "@tabler/icons-react"
+
 function Header() {
     return (
         <header className="flex justify-between items-start sm:items-center p-4 sm:p-6 md:p-8 lg:p-10">
@@ -10,17 +12,18 @@ function Header() {
                 </h1>
             </div>
 
-            {/* Navigation link with responsive sizing */}
-            <div className="flex-shrink-0 text-justify">
+            {/* Navigation button with description */}
+            <div className="flex-shrink-0 flex flex-col items-center text-center">
                 <a
                     href="/recs"
-                    className="inline-flex items-center gap-2 bg-black text-white font-bold px-5 py-2 rounded-full shadow-lg hover:bg-gray-800 transition-all duration-200 text-base sm:text-lg md:text-xl lg:text-2xl leading-tight hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black"
+                    className="bg-black text-white font-bold px-4 py-2 sm:px-6 sm:py-3 md:px-8 md:py-4 rounded-full text-base sm:text-lg md:text-xl lg:text-2xl leading-tight transition-all duration-200 hover:bg-gray-800 hover:scale-105 active:scale-95 shadow-lg hover:shadow-xl flex items-center gap-2"
                 >
-                    FOR&nbsp;
-                    <span className="font-bold">MOI</span>
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
+                    FOR MOI
+                    <IconCaretRightFilled size={16} />
                 </a>
-                <p className="text-xs text-gray-500 mt-1 text-center">Click to see your recommendations</p>
+                <p className="text-black text-xs sm:text-sm md:text-base mt-2 sm:mt-3 font-medium opacity-70">
+                    Click here to recommend
+                </p>
             </div>
         </header>
     );
