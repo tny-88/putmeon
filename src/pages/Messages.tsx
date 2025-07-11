@@ -167,32 +167,11 @@ function Messages() {
         </li>
     );
 
-    if (loading) {
-        return (
-            <div className="min-h-screen bg-white flex items-center justify-center">
-                <p className="text-lg text-gray-600">Loading messages...</p>
-            </div>
-        );
-    }
-
-    if (error) {
-        return (
-            <div className="min-h-screen bg-white flex flex-col items-center justify-center p-4">
-                <p className="text-red-600 mb-4 text-center">Error: {error}</p>
-                <button
-                    onClick={fetchMessages}
-                    className="bg-black text-white px-4 py-2 rounded hover:bg-gray-800 transition">
-                    Try Again
-                </button>
-            </div>
-        );
-    }
-
     return (
         <div className="min-h-screen bg-white flex flex-col relative pb-24">
             <header className="sticky top-0 z-50 bg-white flex justify-between items-center p-4 sm:p-6 md:p-8 lg:p-10 pb-3 sm:pb-4 md:pb-5 border-b border-gray-100">
                 <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold text-black leading-tight">
-                    LEAVE A <br /> MESSAGE
+                    WYS <br /> BRO
                 </h1>
                 <div className="flex-shrink-0 flex flex-col items-center text-center">
                     <a
@@ -205,25 +184,39 @@ function Messages() {
             </header>
 
             <main className="flex-1 px-3 sm:px-6 py-6">
-                {messages.length === 0 ? (
+                {loading ? (
+                    <div className="text-center py-20">
+                        <p className="text-lg text-gray-500">Loading messages...</p>
+                    </div>
+                ) : error ? (
+                     <div className="flex-1 flex flex-col items-center justify-center p-4 sm:p-6">
+                        <p className="text-red-600 mb-4 text-center">Error: {error}</p>
+                        <button
+                            onClick={fetchMessages}
+                            className="bg-black text-white px-4 py-2 rounded hover:bg-gray-800 transition">
+                            Try Again
+                        </button>
+                    </div>
+                ) : messages.length === 0 ? (
                     <div className="text-center py-20">
                         <p className="text-lg text-gray-500">No messages yet.</p>
                         <p className="text-sm text-gray-400">Be the first to leave one!</p>
                     </div>
                 ) : (
-                    <ul className="space-y-4 max-w-3xl mx-auto">
-                        {messages.filter(m => m.message_reply === null).slice(0, visibleCount).map(message => renderMessage(message))}
-                    </ul>
-                )}
-
-                {visibleCount < messages.filter(m => m.message_reply === null).length && (
-                    <div className="text-center mt-8">
-                        <button
-                            onClick={loadMore}
-                            className="bg-black text-white px-6 py-3 rounded-full hover:bg-gray-800 transition-colors font-medium">
-                            Load More ({messages.filter(m => m.message_reply === null).length - visibleCount} remaining)
-                        </button>
-                    </div>
+                    <>
+                        <ul className="space-y-4 max-w-3xl mx-auto">
+                            {messages.filter(m => m.message_reply === null).slice(0, visibleCount).map(message => renderMessage(message))}
+                        </ul>
+                        {visibleCount < messages.filter(m => m.message_reply === null).length && (
+                            <div className="text-center mt-8">
+                                <button
+                                    onClick={loadMore}
+                                    className="bg-black text-white px-6 py-3 rounded-full hover:bg-gray-800 transition-colors font-medium">
+                                    Load More ({messages.filter(m => m.message_reply === null).length - visibleCount} remaining)
+                                </button>
+                            </div>
+                        )}
+                    </>
                 )}
             </main>
 
