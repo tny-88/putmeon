@@ -12,7 +12,7 @@ function UserMessagesModal({ replyTo = null, onClose, onSuccess }: Props) {
     const [message, setMessage] = useState('');
     const [author, setAuthor] = useState('');
     const [loading, setLoading] = useState(false);
-    const MAX_CHARACTERS = 100;
+    const MAX_CHARACTERS = 50;
 
     useEffect(() => {
         const handleEsc = (e: KeyboardEvent) => {
@@ -81,7 +81,7 @@ function UserMessagesModal({ replyTo = null, onClose, onSuccess }: Props) {
                             <label className="block text-sm font-medium text-gray-700 mb-2">Your name</label>
                             <input
                                 type="text"
-                                placeholder="Who are you?"
+                                placeholder="Identify yourself"
                                 className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition-all duration-200 bg-gray-50 hover:bg-white"
                                 value={author}
                                 onChange={(e) => setAuthor(e.target.value)}
@@ -91,7 +91,7 @@ function UserMessagesModal({ replyTo = null, onClose, onSuccess }: Props) {
                         <div>
                             <label className="block text-sm font-medium text-gray-700 mb-2">Message</label>
                             <textarea
-                                placeholder="What's on your mind?"
+                                placeholder="Got anything to say?"
                                 className={`w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:border-transparent transition-all duration-200 bg-gray-50 hover:bg-white resize-none ${
                                     isAtLimit
                                         ? 'border-red-300 focus:ring-red-500'
