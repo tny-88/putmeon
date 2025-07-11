@@ -4,7 +4,7 @@ import RecommendButton from "../components/RecommendButton";
 import SecretButton from "../components/SecretButton";
 import MessageModal from "../components/MessageModal";
 import { toast } from 'sonner';
-
+import { IconChevronDown } from '@tabler/icons-react';
 
 type Recommendation = {
     id: string;
@@ -17,6 +17,8 @@ type Recommendation = {
     message: string | null;
 };
 
+type SortOption = 'time' | 'rating' | 'with_message';
+
 function Recommendations() {
     const [recs, setRecs] = useState<Recommendation[]>([]);
     const [loading, setLoading] = useState(true);
@@ -26,6 +28,8 @@ function Recommendations() {
     const [visibleCount, setVisibleCount] = useState(3);
     const [updatingRating, setUpdatingRating] = useState(false);
     const [editingMessageId, setEditingMessageId] = useState<string | null>(null);
+    const [sortBy, setSortBy] = useState<SortOption>('time');
+    const [showSortDropdown, setShowSortDropdown] = useState(false);
 
     const formatDateTime = (dateTimeString: string) => {
         const date = new Date(dateTimeString);
@@ -100,6 +104,48 @@ function Recommendations() {
             toast.error('Failed to copy');
         }
     }, []);
+
+    const getSortedRecs = () => {
+        switch (sortBy) {
+            case 'rating':
+                return recs.sort((a, b) => {
+                    // Sort by rating, highest first, null ratings go to the end
+                    if (a.rating === null && b.rating === null) return 0;
+                    if (a.rating === null) return 1;
+                    if (b.rating === null) return -1;
+                    return b.rating - a.rating;
+                });
+            case 'with_message':
+                return recs.sort((a, b) => {
+                    // Sort by having a message first, then by time
+                    if (a.message && !b.message) return -1;
+                    if (!a.message && b.message) return 1;
+                    return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
+                });
+            case 'time':
+            default:
+                return recs.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
+        }
+    };
+
+    const getSortLabel = (option: SortOption) => {
+        switch (option) {
+            case 'time':
+                return 'Most Recent';
+            case 'rating':
+                return 'Highest Rated';
+            case 'with_message':
+                return 'With Message';
+            default:
+                return 'Most Recent';
+        }
+    };
+
+    const handleSortChange = (option: SortOption) => {
+        setSortBy(option);
+        setShowSortDropdown(false);
+        setVisibleCount(3); // Reset visible count when sorting changes
+    };
 
     useEffect(() => {
         fetchRecs();
@@ -201,10 +247,46 @@ function Recommendations() {
                 </div>
             ) : (
                 <>
+                    {/* Sorting section */}
+                    <div className="px-3 sm:px-4 md:px-6 lg:px-8 py-4 border-b border-gray-100">
+                        <div className="relative">
+                            <button
+                                onClick={() => setShowSortDropdown(!showSortDropdown)}
+                                className="flex items-center gap-2 text-sm text-gray-600 hover:text-gray-800 transition-colors font-medium"
+                            >
+                                Sort by: {getSortLabel(sortBy)}
+                                <IconChevronDown size={16} className={`transform transition-transform ${showSortDropdown ? 'rotate-180' : ''}`} />
+                            </button>
+
+                            {showSortDropdown && (
+                                <div className="absolute top-full left-0 mt-2 bg-white border border-gray-200 rounded-lg shadow-lg py-2 min-w-[160px] z-10">
+                                    <button
+                                        onClick={() => handleSortChange('time')}
+                                        className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-50 transition-colors ${sortBy === 'time' ? 'text-black font-medium' : 'text-gray-600'}`}
+                                    >
+                                        Most Recent
+                                    </button>
+                                    <button
+                                        onClick={() => handleSortChange('rating')}
+                                        className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-50 transition-colors ${sortBy === 'rating' ? 'text-black font-medium' : 'text-gray-600'}`}
+                                    >
+                                        Highest Rated
+                                    </button>
+                                    <button
+                                        onClick={() => handleSortChange('with_message')}
+                                        className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-50 transition-colors ${sortBy === 'with_message' ? 'text-black font-medium' : 'text-gray-600'}`}
+                                    >
+                                        With Message
+                                    </button>
+                                </div>
+                            )}
+                        </div>
+                    </div>
+
                     {/* Mobile-optimized recommendations list */}
                     <div className="flex-1 px-3 sm:px-4 md:px-6 lg:px-8 py-4 sm:py-6">
                         <ul className="space-y-3 sm:space-y-4 md:space-y-6">
-                            {recs.slice(0, visibleCount).map((rec) => (
+                            {getSortedRecs().slice(0, visibleCount).map((rec) => (
                                 <li
                                     key={rec.id}
                                     className="bg-white border border-gray-100 rounded-lg p-4 sm:p-5 md:p-6 lg:p-8 transition-all duration-200 hover:shadow-md hover:border-gray-200 relative"
@@ -288,7 +370,7 @@ function Recommendations() {
                                             <div className="flex items-start gap-2">
                                                 <p className="text-xs sm:text-sm text-black">
                                                     <span className="font-bold">Mastermind's Notes</span>
-                                                     : {rec.message}
+                                                    : {rec.message}
                                                 </p>
                                                 {isAdmin && (
                                                     <button
@@ -340,21 +422,19 @@ function Recommendations() {
                                         >
                                             Copy
                                         </button>
-
                                     </div>
-
                                 </li>
                             ))}
                         </ul>
 
                         {/* Load more button */}
-                        {visibleCount < recs.length && (
+                        {visibleCount < getSortedRecs().length && (
                             <div className="text-center mt-6 sm:mt-8 md:mt-10">
                                 <button
                                     onClick={loadMore}
                                     className="bg-black text-white px-4 sm:px-6 py-2 sm:py-3 rounded-full hover:bg-gray-800 transition-colors duration-200 text-sm sm:text-base font-medium"
                                 >
-                                    Load More ({recs.length - visibleCount} remaining)
+                                    Load More ({getSortedRecs().length - visibleCount} remaining)
                                 </button>
                             </div>
                         )}

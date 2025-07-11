@@ -3,7 +3,7 @@ import { supabase } from '../supabaseClient';
 import UserMessagesButton from "../components/UserMessagesButton";
 import UserMessagesModal from "../components/UserMessagesModal";
 import { toast } from 'sonner';
-import { IconHeart, IconMessageCircle } from '@tabler/icons-react';
+import { IconHeart, IconMessageCircle, IconChevronDown } from '@tabler/icons-react';
 
 type Message = {
     id: number;
@@ -14,12 +14,16 @@ type Message = {
     likes: number;
 };
 
+type SortOption = 'time' | 'rating' | 'replies';
+
 function Messages() {
     const [messages, setMessages] = useState<Message[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [visibleCount, setVisibleCount] = useState(5);
     const [replyingTo, setReplyingTo] = useState<number | null>(null);
+    const [sortBy, setSortBy] = useState<SortOption>('time');
+    const [showSortDropdown, setShowSortDropdown] = useState(false);
     const [likedMessages, setLikedMessages] = useState<Set<number>>(() => {
         const saved = localStorage.getItem('likedMessages');
         return saved ? new Set(JSON.parse(saved)) : new Set();
@@ -130,6 +134,39 @@ function Messages() {
         return messages.filter(m => m.message_reply === messageId);
     };
 
+    const getSortedMessages = () => {
+        const topLevelMessages = messages.filter(m => m.message_reply === null);
+
+        switch (sortBy) {
+            case 'rating':
+                return topLevelMessages.sort((a, b) => b.likes - a.likes);
+            case 'replies':
+                return topLevelMessages.sort((a, b) => getReplies(b.id).length - getReplies(a.id).length);
+            case 'time':
+            default:
+                return topLevelMessages.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
+        }
+    };
+
+    const getSortLabel = (option: SortOption) => {
+        switch (option) {
+            case 'time':
+                return 'Most Recent';
+            case 'rating':
+                return 'Highest Rated';
+            case 'replies':
+                return 'Most Replies';
+            default:
+                return 'Most Recent';
+        }
+    };
+
+    const handleSortChange = (option: SortOption) => {
+        setSortBy(option);
+        setShowSortDropdown(false);
+        setVisibleCount(5); // Reset visible count when sorting changes
+    };
+
     const renderMessage = (message: Message, isReply: boolean = false) => (
         <li
             key={message.id}
@@ -183,13 +220,52 @@ function Messages() {
                 </div>
             </header>
 
+            {!loading && !error && messages.length > 0 && (
+                <div className="px-3 sm:px-6 py-4 border-b border-gray-100">
+                    <div className="max-w-3xl mx-auto">
+                        <div className="relative">
+                            <button
+                                onClick={() => setShowSortDropdown(!showSortDropdown)}
+                                className="flex items-center gap-2 text-sm text-gray-600 hover:text-gray-800 transition-colors font-medium"
+                            >
+                                Sort by: {getSortLabel(sortBy)}
+                                <IconChevronDown size={16} className={`transform transition-transform ${showSortDropdown ? 'rotate-180' : ''}`} />
+                            </button>
+
+                            {showSortDropdown && (
+                                <div className="absolute top-full left-0 mt-2 bg-white border border-gray-200 rounded-lg shadow-lg py-2 min-w-[160px] z-10">
+                                    <button
+                                        onClick={() => handleSortChange('time')}
+                                        className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-50 transition-colors ${sortBy === 'time' ? 'text-black font-medium' : 'text-gray-600'}`}
+                                    >
+                                        Most Recent
+                                    </button>
+                                    <button
+                                        onClick={() => handleSortChange('rating')}
+                                        className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-50 transition-colors ${sortBy === 'rating' ? 'text-black font-medium' : 'text-gray-600'}`}
+                                    >
+                                        Highest Rated
+                                    </button>
+                                    <button
+                                        onClick={() => handleSortChange('replies')}
+                                        className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-50 transition-colors ${sortBy === 'replies' ? 'text-black font-medium' : 'text-gray-600'}`}
+                                    >
+                                        Most Replies
+                                    </button>
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                </div>
+            )}
+
             <main className="flex-1 px-3 sm:px-6 py-6">
                 {loading ? (
                     <div className="text-center py-20">
                         <p className="text-lg text-gray-500">Loading messages...</p>
                     </div>
                 ) : error ? (
-                     <div className="flex-1 flex flex-col items-center justify-center p-4 sm:p-6">
+                    <div className="flex-1 flex flex-col items-center justify-center p-4 sm:p-6">
                         <p className="text-red-600 mb-4 text-center">Error: {error}</p>
                         <button
                             onClick={fetchMessages}
@@ -205,14 +281,14 @@ function Messages() {
                 ) : (
                     <>
                         <ul className="space-y-4 max-w-3xl mx-auto">
-                            {messages.filter(m => m.message_reply === null).slice(0, visibleCount).map(message => renderMessage(message))}
+                            {getSortedMessages().slice(0, visibleCount).map(message => renderMessage(message))}
                         </ul>
-                        {visibleCount < messages.filter(m => m.message_reply === null).length && (
+                        {visibleCount < getSortedMessages().length && (
                             <div className="text-center mt-8">
                                 <button
                                     onClick={loadMore}
                                     className="bg-black text-white px-6 py-3 rounded-full hover:bg-gray-800 transition-colors font-medium">
-                                    Load More ({messages.filter(m => m.message_reply === null).length - visibleCount} remaining)
+                                    Load More ({getSortedMessages().length - visibleCount} remaining)
                                 </button>
                             </div>
                         )}
