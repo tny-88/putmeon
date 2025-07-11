@@ -276,7 +276,7 @@ function Messages() {
                 ) : messages.length === 0 ? (
                     <div className="text-center py-20">
                         <p className="text-lg text-gray-500">No messages yet.</p>
-                        <p className="text-sm text-gray-400">Be the first to leave one!</p>
+                        <p className="text-sm text-gray-400">What's on your mind tho?</p>
                     </div>
                 ) : (
                     <>
