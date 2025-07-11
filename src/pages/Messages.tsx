@@ -138,7 +138,7 @@ function Messages() {
             }`}>
             <div className="flex justify-between items-start">
                 <div className="flex-1 pr-10">
-                    <p className="text-gray-800 break-words">{message.message}</p>
+                    <p className="text-gray-800 break-all">{message.message}</p>
                     <p className="text-xs text-gray-500 mt-2">- {message.author}</p>
                 </div>
                 <div className="text-xs text-gray-400 flex-shrink-0">{formatDateTime(message.created_at)}</div>
