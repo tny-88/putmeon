@@ -1,4 +1,4 @@
-import { IconMessageCircle } from "@tabler/icons-react";
+import { IconBrandTwitterFilled } from "@tabler/icons-react";
 
 function MessageNavButton() {
     return (
@@ -8,7 +8,7 @@ function MessageNavButton() {
                 href="/messages"
                 aria-label="Admin Access"
             >
-                <IconMessageCircle size={24} stroke={2} />
+                <IconBrandTwitterFilled size={24} stroke={2} />
             </a>
 
 
