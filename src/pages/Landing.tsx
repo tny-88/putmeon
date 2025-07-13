@@ -17,9 +17,8 @@ function Landing() {
                     {/* Purpose message */}
                     <div className="mb-8 sm:mb-10 md:mb-12 px-2">
                         <p className="text-xs sm:text-sm md:text-base lg:text-xl text-black leading-tight font-light text-left pb-6">
-                            Firstly, this is a selfish project as it's meant for me and less for you all.
-                            Now lets make a unfair trade. You get a song from me and in exchange I
-                            get recommendations from you. I will rate these recommendations so put me on game.
+                            This is a selfish project. I will to put you on heat but I want your music recs.
+                            Criticize my song choice by leaving a tweet (lol) on the messages page or something.
                         </p>
                         <p className="text-xs sm:text-sm md:text-base lg:text-lg text-gray-400 leading-relaxed font-light text-right">
                             ~ Terence, Mastermind
@@ -30,7 +29,7 @@ function Landing() {
                     <div className="space-y-4">
                         <a
                             href="/home"
-                            className="inline-flex items-center justify-center gap-2 bg-black text-white px-6 sm:px-8 py-3 sm:py-4 rounded-full hover:bg-gray-800 transition-all duration-300 text-sm sm:text-base md:text-lg font-medium hover:shadow-lg transform hover:scale-105 min-w-48"
+                            className="inline-flex items-center justify-center gap-2 bg-black text-white px-6 sm:px-8 py-3 sm:py-4 rounded-full hover:bg-gray-800 transition-all duration-300 text-xs sm:text-sm md:text-base font-medium hover:shadow-lg transform hover:scale-105 min-w-48"
                         >
                             Proceed lil bro
                         </a>

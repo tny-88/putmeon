@@ -10,13 +10,13 @@ function FeaturedSong({ title, artist, artworkUrl, embedUrl, appleMusicUrl }: Pr
     const fallbackUrl = "/fallback";
 
     return (
-        <div className="p-2 sm:p-3 md:p-4 max-w-xs sm:max-w-sm md:max-w-md w-full text-center mx-auto">
+        <div className="p-1 sm:p-2 md:p-3 max-w-xs sm:max-w-sm md:max-w-md w-full text-center mx-auto">
             {/* Artwork with responsive sizing */}
             <div className="relative mb-2 sm:mb-3 md:mb-4">
                 <img
                     src={artworkUrl}
                     alt={`${title} artwork`}
-                    className="w-48 h-48 sm:w-56 sm:h-56 md:w-100 md:h-100 object-cover rounded-xl mx-auto shadow-lg"
+                    className="w-50 h-50 sm:w-56 sm:h-56 md:w-100 md:h-100 object-cover rounded-xl mx-auto shadow-lg"
                 />
             </div>
 
