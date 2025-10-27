@@ -17,8 +17,8 @@ function Landing() {
                     {/* Purpose message */}
                     <div className="mb-8 sm:mb-10 md:mb-12 px-2">
                         <p className="text-xs sm:text-sm md:text-base lg:text-xl text-black leading-tight font-light text-left pb-6">
-                            This is a selfish project. I will to put you on heat but I want your music recs.
-                            Criticize my song choice by leaving a tweet (lol) on the messages page or something.
+                            This is a selfish project. I will to put you on but you also have to put me on.
+                            Leave a message or something on the fake bird app.
                         </p>
                         <p className="text-xs sm:text-sm md:text-base lg:text-lg text-gray-400 leading-relaxed font-light text-right">
                             ~ Terence, Mastermind
